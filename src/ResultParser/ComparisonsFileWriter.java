@@ -5,6 +5,7 @@
  */
 package ResultParser;
 
+import artificial_bee_colony.Configuration;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,12 +20,12 @@ import java.util.logging.Logger;
  */
 public class ComparisonsFileWriter {
     
-    public void write(ArrayList<Integer> comparisons){
+    public void write(ArrayList<Integer> comparisons,Configuration c){
     
         BufferedWriter writer;
         try {
             
-            writer = new BufferedWriter( new FileWriter("results//comparisons-1"));
+            writer = new BufferedWriter( new FileWriter("results//comparisons-"+c.name));
             writer.write("t,var,count\n");
             Iterator<Integer> it = comparisons.iterator();
             int i = 0;

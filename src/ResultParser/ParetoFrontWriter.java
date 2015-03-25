@@ -5,6 +5,7 @@
  */
 package ResultParser;
 
+import artificial_bee_colony.Configuration;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,12 +20,12 @@ import java.util.logging.Logger;
  */
 public class ParetoFrontWriter {
     
-    public void write(ArrayList<Double> fitnesses,ArrayList<Integer> sizes,int size){
+    public void write(ArrayList<Double> fitnesses,ArrayList<Integer> sizes,int size,Configuration c){
     
         BufferedWriter writer;
         try {
             
-            writer = new BufferedWriter( new FileWriter("results//paretoFrontSize-1"));
+            writer = new BufferedWriter( new FileWriter("results//paretoFrontSize-"+c.name));
             writer.write("size\n");
             Iterator<Integer> it = sizes.iterator();
             while(it.hasNext()){
@@ -41,7 +42,7 @@ public class ParetoFrontWriter {
         
         try {
             
-            writer = new BufferedWriter( new FileWriter("results//fitnesses-1"));
+            writer = new BufferedWriter( new FileWriter("results//fitnesses-"+c.name));
             writer.write("iteration,length,support,similarity\n");
             Iterator<Double> it = fitnesses.iterator();
             int i = 0;

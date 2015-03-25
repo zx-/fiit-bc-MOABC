@@ -90,9 +90,9 @@ public class ResultParser {
 
     public static void iterationSearchEnd() {
         
-        comparisonWriter.write(comparisons);
-        levyImprovementsWriter.write(improvementsLevy);
-        paretoFrontWriter.write(colonyFitnesses,paretoFrontSize,beesCheckSize);
+        comparisonWriter.write(comparisons,currentConfiguration);
+        levyImprovementsWriter.write(improvementsLevy,currentConfiguration);
+        paretoFrontWriter.write(colonyFitnesses,paretoFrontSize,beesCheckSize,currentConfiguration);
         
     }
 

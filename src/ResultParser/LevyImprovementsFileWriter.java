@@ -5,6 +5,7 @@
  */
 package ResultParser;
 
+import artificial_bee_colony.Configuration;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,12 +20,12 @@ import java.util.logging.Logger;
  */
 public class LevyImprovementsFileWriter {
 
-    public void write(ArrayList<Integer> levy){
+    public void write(ArrayList<Integer> levy,Configuration c){
     
         BufferedWriter writer;
         try {
             
-            writer = new BufferedWriter( new FileWriter("results//levys-1"));
+            writer = new BufferedWriter( new FileWriter("results//levys-"+c.name));
             writer.write("Improved,NotImproved\n");
             Iterator<Integer> it = levy.iterator();
             int i = 0;

@@ -5,6 +5,7 @@
  */
 package tester;
 
+import ResultParser.ResultParser;
 import artificial_bee_colony.Configuration;
 import artificial_bee_colony.MotifFindingSolver;
 import artificial_bee_colony.bee.evaluator.Evaluator;
@@ -104,6 +105,7 @@ public class Tester {
             
             Sorter.logger.setLevel(c.logLevel);
         
+            ResultParser.setCurrentConfiguration(c);
             c.name+= "-"+testName;
             new MotifFindingSolver(
                    evaluator,
