@@ -34,10 +34,10 @@ public class MotifFindingSolver {
     private Mutator mutator;
     private RandomSelector selector = new RandomValuedSelection();
     
-    public MotifFindingSolver(Evaluator e,Configuration config, Mutator m){
+    public MotifFindingSolver(Evaluator e,Configuration config, Mutator m,Sorter s){
     
         evaluator = e;
-        sorter = new Sorter(config);
+        sorter = s;
         cfg = config;
         mutator = m;
         logger.setLevel(config.logLevel);
