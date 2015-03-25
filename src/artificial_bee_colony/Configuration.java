@@ -5,6 +5,7 @@
  */
 package artificial_bee_colony;
 
+import com.google.gson.Gson;
 import java.util.logging.Level;
 
 /**
@@ -12,6 +13,25 @@ import java.util.logging.Level;
  * @author Róbert Cuprik <robertcuprik at hotmail.com>
  */
 public class Configuration {
+    
+    public static Configuration getFromJson(String s){
+    
+        Gson gson = new Gson();
+        Configuration c = gson.fromJson(s, Configuration.class);
+        
+        return c;
+    
+    }
+    
+    public String createJson(){
+    
+        Gson gson = new Gson();
+        return gson.toJson(this, Configuration.class);
+    
+    }
+    
+    public String name = "Default Config";
+    public int numberOfRepetitionsPerInput = 1;
     
     public int motifMaxLength = 64; // 64
     public int motifMinLength = 7;
