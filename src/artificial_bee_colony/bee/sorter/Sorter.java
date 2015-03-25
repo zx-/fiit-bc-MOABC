@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Sorter {
     
-    static final Logger logger = Logger.getLogger( Sorter.class.getName() );
+    public static final Logger logger = Logger.getLogger( Sorter.class.getName() );
     Sortee[] sortees = null;
     ParetoFronts paretoFronts = new ParetoFronts();
     
