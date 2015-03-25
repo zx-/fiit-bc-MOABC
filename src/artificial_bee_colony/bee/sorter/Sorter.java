@@ -24,11 +24,6 @@ public class Sorter {
     Sortee[] sortees = null;
     ParetoFronts paretoFronts = new ParetoFronts();
     
-    public Sorter(Configuration cfg){
-        
-        logger.setLevel(cfg.logLevel);
-    
-    }
    
     public List<Bee> sortColony(Bee[] colony){
     
