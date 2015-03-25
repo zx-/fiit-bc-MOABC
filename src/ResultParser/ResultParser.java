@@ -103,6 +103,9 @@ public class ResultParser {
         
         Arrays.fill(levyCounts,0);
         improvementsLevy.clear();
+        colonyFitnesses.clear();
+        paretoFrontSize.clear();
+        currentParetoFrontSize = 0;
         
     }
 
@@ -151,9 +154,9 @@ public class ResultParser {
     
     }
 
-    public static void paretoFronSize(int size) {
+    public static void paretoFrontSize(int size) {
         
-        currentParetoFrontSize += size;
+        currentParetoFrontSize = size;
         
     }
         

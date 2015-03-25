@@ -46,6 +46,8 @@ public class BC_DNA {
         Configuration[] configs = new Configuration[1];
         configs[0] = c;
         
+        System.out.println(c.createJson());
+        
         ArrayList<DNASequence[]> seqList = openSequences();
         
         DNASequence[] seq = DNASequenceLoader.loadFromFile("assets\\sequences\\real\\hm20r.fasta");
@@ -56,18 +58,25 @@ public class BC_DNA {
         Evaluator e = new GonzalezAlvarezEvaluator(c);
         Sorter s = new Sorter();
         
-        Tester tester = new Tester
-            .TesterBuilder("hm20r.fasta")
+        for(DNASequence[] sequence: seqList){
+        
+        
+            Tester tester = new Tester
+            .TesterBuilder(sequence[0].getName())
                 .evaluator(e)
                 .sorter(s)
                 .mutator(new BasicMutator(e, c))
-                .dnaSequences(seq)
+                .dnaSequences(sequence)
                 .configurations(configs)
                 .build();
               
-        tester.test();
+            tester.test();
 
-        ResultParser.printResults();   
+            ResultParser.printResults();   
+                
+        
+        }
+        
         
         
     }

@@ -25,7 +25,7 @@ public class LevyImprovementsFileWriter {
         BufferedWriter writer;
         try {
             
-            writer = new BufferedWriter( new FileWriter("results//levys-"+c.name));
+            writer = new BufferedWriter( new FileWriter("results//levys//levys-"+c.name));
             writer.write("Improved,NotImproved\n");
             Iterator<Integer> it = levy.iterator();
             int i = 0;

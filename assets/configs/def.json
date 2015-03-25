@@ -1,0 +1,25 @@
+{
+	"name" : "Default Config",
+	"numberOfRepetitionsPerInput" : 1,
+	"motifMaxLength" : 64,
+	"motifMinLength" : 7,
+	"maxIterations" : 2000,
+	"onlookersSize" : 10,
+	"workersSize" : 10,
+	"scoutsSize" : 1,
+	"supportTreshold" : 0.5,
+	"motifMinComplexity" : 0.5,
+	"numberOfSequentions" : 12,
+	"lengthOfSequence" : 200,
+	"logLevel" : {
+		"name" : "OFF",
+		"value" : 2147483647,
+		"resourceBundleName" : "sun.util.logging.resources.logging"
+	},
+	"OBLFepsilon" : 15,
+	"OBLFbeta" : 2.0,
+	"jumpRate" : 0.1,
+	"perturbationRate" : 0.2,
+	"stepC" : 1.5,
+	"OBLFstepMultiplier" : 2.0
+}

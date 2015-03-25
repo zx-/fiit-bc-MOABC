@@ -159,7 +159,7 @@ public class MotifFindingSolver {
             
             // SORT COLONY
             firstParetoFront = sorter.sortColony(colony);
-            ResultParser.paretoFronSize(firstParetoFront.size());
+            ResultParser.paretoFrontSize(firstParetoFront.size());
             
             ResultParser.levyPhase();            
             levyFlight.applyLevyFlight(firstParetoFront,colony);

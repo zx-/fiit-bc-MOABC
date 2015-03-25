@@ -25,7 +25,7 @@ public class ComparisonsFileWriter {
         BufferedWriter writer;
         try {
             
-            writer = new BufferedWriter( new FileWriter("results//comparisons-"+c.name));
+            writer = new BufferedWriter( new FileWriter("results//comparisons//comparisons-"+c.name));
             writer.write("t,var,count\n");
             Iterator<Integer> it = comparisons.iterator();
             int i = 0;
