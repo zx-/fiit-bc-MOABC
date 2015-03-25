@@ -6,6 +6,12 @@
 package artificial_bee_colony;
 
 import com.google.gson.Gson;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Scanner;
 import java.util.logging.Level;
 
 /**
@@ -20,6 +26,11 @@ public class Configuration {
         Configuration c = gson.fromJson(s, Configuration.class);
         
         return c;
+    
+    }
+    public static Configuration getFromJsonFile(File f) throws IOException{
+    
+        return getFromJson(new String(Files.readAllBytes(Paths.get(f.getPath()))));
     
     }
     
