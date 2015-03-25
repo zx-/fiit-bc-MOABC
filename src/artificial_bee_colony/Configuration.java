@@ -31,11 +31,12 @@ public class Configuration {
     }
     
     public String name = "Default Config";
+    public String currentTestName = "";
     public int numberOfRepetitionsPerInput = 1;
     
     public int motifMaxLength = 64; // 64
     public int motifMinLength = 7;
-    public int maxIterations = 2000;
+    public int maxIterations = 1000;
     public int onlookersSize = 10;//100
     public int workersSize = 10;//100
     public int scoutsSize = 1;//20
@@ -55,7 +56,11 @@ public class Configuration {
     public double stepC = 1.5;
     public double OBLFstepMultiplier = 2;
     
+    public String getCurrentResultName(){
     
+        return this.name+"-"+this.currentTestName;
+    
+    }
 
     public int getMinSupport(int numOfSequences) {
      

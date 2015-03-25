@@ -46,11 +46,10 @@ public class BC_DNA {
         Configuration[] configs = new Configuration[1];
         configs[0] = c;
         
-        System.out.println(c.createJson());
         
         ArrayList<DNASequence[]> seqList = openSequences();
         
-        DNASequence[] seq = DNASequenceLoader.loadFromFile("assets\\sequences\\real\\hm20r.fasta");
+ //       DNASequence[] seq = DNASequenceLoader.loadFromFile("assets\\sequences\\real\\hm20r.fasta");
         
           
 //        for(int i= 0; i<size;i++)
@@ -60,21 +59,23 @@ public class BC_DNA {
         
         for(DNASequence[] sequence: seqList){
         
-        
-            Tester tester = new Tester
-            .TesterBuilder(sequence[0].getName())
-                .evaluator(e)
-                .sorter(s)
-                .mutator(new BasicMutator(e, c))
-                .dnaSequences(sequence)
-                .configurations(configs)
-                .build();
-              
-            tester.test();
+            if(sequence.length > 1){
+            
+                Tester tester = new Tester
+                .TesterBuilder(sequence[0].getName())
+                    .evaluator(e)
+                    .sorter(s)
+                    .mutator(new BasicMutator(e, c))
+                    .dnaSequences(sequence)
+                    .configurations(configs)
+                    .build();
 
-            ResultParser.printResults();   
+                tester.test();
+
+                ResultParser.printResults();   
                 
-        
+            }
+            
         }
         
         

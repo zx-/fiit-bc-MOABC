@@ -25,7 +25,7 @@ public class ParetoFrontWriter {
         BufferedWriter writer;
         try {
             
-            writer = new BufferedWriter( new FileWriter("results//paretoFrontSize//paretoFrontSize-"+c.name));
+            writer = new BufferedWriter( new FileWriter("results//paretoFrontSize//paretoFrontSize-"+c.getCurrentResultName()));
             writer.write("size\n");
             Iterator<Integer> it = sizes.iterator();
             while(it.hasNext()){
@@ -42,7 +42,7 @@ public class ParetoFrontWriter {
         
         try {
             
-            writer = new BufferedWriter( new FileWriter("results//fitnesses//fitnesses-"+c.name));
+            writer = new BufferedWriter( new FileWriter("results//fitnesses//fitnesses-"+c.getCurrentResultName()));
             writer.write("iteration,length,support,similarity\n");
             Iterator<Double> it = fitnesses.iterator();
             int i = 0;

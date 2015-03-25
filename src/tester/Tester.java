@@ -106,7 +106,7 @@ public class Tester {
             Sorter.logger.setLevel(c.logLevel);
         
             ResultParser.setCurrentConfiguration(c);
-            c.name+= "-"+testName;
+            c.currentTestName = testName;
             new MotifFindingSolver(
                    evaluator,
                    c,
