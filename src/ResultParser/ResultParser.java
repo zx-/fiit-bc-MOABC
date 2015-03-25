@@ -23,6 +23,7 @@ public class ResultParser {
     private static final int comparisonCounts[] = new int[SearchPhase.values().length*2]; 
     private static final int levyCounts[] = new int[2];
     private static int currentParetoFrontSize = 0;
+    public static Configuration currentConfiguration;
     
     private static ArrayList<Integer> comparisons = new ArrayList<>();
     private static ArrayList<Integer> improvementsLevy = new ArrayList<>();
@@ -171,6 +172,13 @@ public class ResultParser {
         
         }
     
+    }
+
+    /**
+     * @param aCurrentConfiguration the currentConfiguration to set
+     */
+    public static void setCurrentConfiguration(Configuration aCurrentConfiguration) {
+        currentConfiguration = aCurrentConfiguration;
     }
     
 }
