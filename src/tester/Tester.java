@@ -23,7 +23,7 @@ public class Tester {
     private Evaluator evaluator;
     private Mutator mutator;
     private Sorter sorter;
-    private String seqName;
+    private String testName;
     
     public static class TesterBuilder{
     
@@ -32,7 +32,8 @@ public class Tester {
         private Evaluator evaluator;
         private Mutator mutator;
         private Sorter sorter;
-        private String seqName;
+        private String testName;
+        
         
         public TesterBuilder dnaSequences(DNASequence[] seq){
         
@@ -69,10 +70,9 @@ public class Tester {
         
         }
         
-        public TesterBuilder seqName(String s){
+        public TesterBuilder(String s)        {
         
-            this.seqName = s;
-            return this;
+            this.testName = s;
             
         }
         
@@ -93,16 +93,19 @@ public class Tester {
         this.mutator = b.mutator;
         this.sorter = b.sorter;
         this.evaluator = b.evaluator;
-        this.seqName = b.seqName;
+        this.testName = b.testName;
         
     }
     
     public void test(){
     
         for(Configuration c:configs){
+            
+            
+            Sorter.logger.setLevel(c.logLevel);
         
-           c.name+= "-"+seqName;
-           new MotifFindingSolver(
+            c.name+= "-"+testName;
+            new MotifFindingSolver(
                    evaluator,
                    c,
                    mutator,
