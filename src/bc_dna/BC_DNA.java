@@ -39,12 +39,13 @@ public class BC_DNA {
      * @param args the command line arguments
      * @throws motif.PFMNotLoadedException
      */
-    public static void main(String[] args) throws PFMNotLoadedException, FileNotFoundException {
+    public static void main(String[] args) throws PFMNotLoadedException, FileNotFoundException, IOException {
         
         
         Configuration c = new Configuration();
-        Configuration[] configs = new Configuration[1];
-        configs[0] = c;
+        Configuration[] configs = new Configuration[2];
+        configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def.json"));
+        configs[1] = Configuration.getFromJsonFile(new File("assets\\configs\\def2.json"));
         
         
         ArrayList<DNASequence[]> seqList = openSequences();
