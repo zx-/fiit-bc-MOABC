@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +22,7 @@ import java.util.logging.Logger;
 public class ResultWriter {
 
     private HashMap<String,FileWriter> writers = new HashMap<>();
+    private HashMap<String,HashSet<String>> resultsByConf = new HashMap<>();
     
     void writeNewDataSet(Configuration currentConfiguration, String dnaDatasetName) {
     
@@ -75,6 +77,40 @@ public class ResultWriter {
         }
         
     }
+    
+    void addInstance(Configuration currentConfiguration, String result){
+    
+        HashSet<String> set;
+        if(resultsByConf.containsKey(currentConfiguration.name)){
+        
+            set = resultsByConf.get(currentConfiguration.name);
+        
+        } else {
+        
+            set = new HashSet<>();
+            resultsByConf.put(currentConfiguration.name, set);
+        
+        }
+        
+        set.add(result);
+    
+    }
+    
+    void writeAddedInstances(Configuration currentConfiguration){
+    
+        HashSet<String> set = resultsByConf.get(currentConfiguration.name);
+        
+        if(set != null){
+        
+            for(String s:set){
+                
+                writeInstance(currentConfiguration, s);
+            
+            }
+        
+        }
+    
+    }
 
     void close(Configuration currentConfiguration) {
     
@@ -88,7 +124,9 @@ public class ResultWriter {
                 System.err.println("IOException: " + ex.getMessage());
             }
         
-       }
+        }
+        
+        resultsByConf.clear();
     
     }
     
