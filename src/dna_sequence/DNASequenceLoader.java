@@ -27,7 +27,8 @@ public class DNASequenceLoader {
         
             sc.next(); // Seqnumber
             seq = DNASequence.createFromString(sc.next());
-            seq.setName(f.getName());
+            // remove extension
+            seq.setName(f.getName().replaceFirst("[.][^.]+$", ""));
             seq.setNumber(i++);
             list.add(seq);
         

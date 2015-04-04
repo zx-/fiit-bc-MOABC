@@ -22,5 +22,7 @@
 	"jumpRate" : 0.1,
 	"perturbationRate" : 0.2,
 	"stepC" : 1.5,
-	"OBLFstepMultiplier" : 2.0
+	"OBLFstepMultiplier" : 2.0,
+	"useLevy" : 0,
+	"useObom" : 0
 }

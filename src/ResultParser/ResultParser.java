@@ -29,9 +29,11 @@ public class ResultParser {
     private static ArrayList<Integer> improvementsLevy = new ArrayList<>();
     private static ArrayList<Integer> paretoFrontSize = new ArrayList<>();
     private static ArrayList<Double> colonyFitnesses = new ArrayList<>();
+    
     private static ComparisonsFileWriter comparisonWriter = new ComparisonsFileWriter();
     private static LevyImprovementsFileWriter levyImprovementsWriter = new LevyImprovementsFileWriter();
     private static ParetoFrontWriter paretoFrontWriter = new ParetoFrontWriter();
+    private static ResultWriter resultWriter = new ResultWriter();
     
     private static SearchPhase beeSearchPhase = SearchPhase.WORKER_PHASE;
     
@@ -50,6 +52,21 @@ public class ResultParser {
 
     
     public static void parseFinalResults(Bee[] colony) {
+        
+        resultWriter
+            .writeNewDataSet(currentConfiguration,colony[0].getDNADatasetName());
+        
+        for(int i=0; i< currentConfiguration.workersSize; i++){
+            
+            resultWriter.writeInstance(
+                    currentConfiguration,
+                    BeeResultParser.parseBeeMotif(colony[i])
+                    );
+        
+        }
+        
+        resultWriter.close(currentConfiguration);
+        
     }
 
     public static void parseColonyIteration(Bee[] colony, int iteration) {

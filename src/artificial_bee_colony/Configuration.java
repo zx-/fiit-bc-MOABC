@@ -67,6 +67,9 @@ public class Configuration {
     public double stepC = 1.5;
     public double OBLFstepMultiplier = 2;
     
+    public int useLevy = 0;
+    public int useObom = 0;
+    
     public String getCurrentResultName(){
     
         return this.name+"-"+this.currentTestName;

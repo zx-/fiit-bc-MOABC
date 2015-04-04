@@ -11,6 +11,7 @@ import artificial_bee_colony.MotifFindingSolver;
 import artificial_bee_colony.bee.evaluator.Evaluator;
 import artificial_bee_colony.bee.evaluator.GonzalezAlvarezEvaluator;
 import artificial_bee_colony.bee.mutator.BasicMutator;
+import artificial_bee_colony.bee.sorter.SimilarityPrioritySorter;
 import artificial_bee_colony.bee.sorter.Sorter;
 import dna_generator.DNASequenceGenerator;
 import dna_sequence.DNASequence;
@@ -49,14 +50,16 @@ public class BC_DNA {
         
         
         ArrayList<DNASequence[]> seqList = openSequences();
+       // ArrayList<DNASequence[]> seqList =new ArrayList<>();
         
- //       DNASequence[] seq = DNASequenceLoader.loadFromFile("assets\\sequences\\real\\hm20r.fasta");
-        
+        DNASequence[] seq = DNASequenceLoader.loadFromFile("assets\\sequences\\real\\hm20r.fasta");
+        //seqList.add(seq);
           
 //        for(int i= 0; i<size;i++)
 //            System.out.println(seq[i].toJSON());
         Evaluator e = new GonzalezAlvarezEvaluator(c);
-        Sorter s = new Sorter();
+        //Sorter s = new Sorter();
+        Sorter s = new SimilarityPrioritySorter();
         
         for(DNASequence[] sequence: seqList){
         

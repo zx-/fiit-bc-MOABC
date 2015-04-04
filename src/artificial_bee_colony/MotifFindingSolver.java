@@ -161,11 +161,21 @@ public class MotifFindingSolver {
             firstParetoFront = sorter.sortColony(colony);
             ResultParser.paretoFrontSize(firstParetoFront.size());
             
-            ResultParser.levyPhase();            
-            levyFlight.applyLevyFlight(firstParetoFront,colony);
+            if(cfg.useLevy == 1){            
+
+                ResultParser.levyPhase();            
+                levyFlight.applyLevyFlight(firstParetoFront,colony);
             
-            ResultParser.obPhase();   
-            obo.applyOB(colony);
+            }
+            
+            if(cfg.useObom == 1){
+            
+                ResultParser.obPhase();   
+                obo.applyOB(colony);
+                
+            }
+            
+            
             
             if(logger.isLoggable(Level.INFO)){
         

@@ -280,6 +280,12 @@ public class Bee {
         return sb.toString();
     
     }
+    
+    public String getDNADatasetName(){
+    
+        return this.sequences[0].getName();
+    
+    }
 
     /**
      * @return the pfm
