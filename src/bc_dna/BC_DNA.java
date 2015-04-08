@@ -44,9 +44,11 @@ public class BC_DNA {
         
         
         Configuration c = new Configuration();
-        Configuration[] configs = new Configuration[2];
-        configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def.json"));
-        configs[1] = Configuration.getFromJsonFile(new File("assets\\configs\\def2.json"));
+        Configuration[] configs = new Configuration[3];
+       // configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def.json"));
+        configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def3.json"));
+        configs[1] = Configuration.getFromJsonFile(new File("assets\\configs\\200b500it.json"));
+        configs[2] = Configuration.getFromJsonFile(new File("assets\\configs\\200b1000it.json"));
         
         
         ArrayList<DNASequence[]> seqList = openSequences();

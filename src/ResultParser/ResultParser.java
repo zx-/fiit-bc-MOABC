@@ -58,13 +58,14 @@ public class ResultParser {
         
         for(int i=0; i< currentConfiguration.workersSize; i++){
             
-            resultWriter.writeInstance(
+            resultWriter.addInstance(
                     currentConfiguration,
                     BeeResultParser.parseBeeMotif(colony[i])
                     );
         
         }
         
+        resultWriter.writeAddedInstances(currentConfiguration);
         resultWriter.close(currentConfiguration);
         
     }

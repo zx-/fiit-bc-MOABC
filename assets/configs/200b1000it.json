@@ -1,0 +1,28 @@
+{
+	"name" : "200b1000it-non-linear-length",
+	"currentTestName" : "",
+	"numberOfRepetitionsPerInput" : 1,
+	"motifMaxLength" : 64,
+	"motifMinLength" : 7,
+	"maxIterations" : 1000,
+	"onlookersSize" : 100,
+	"workersSize" : 100,
+	"scoutsSize" : 0,
+	"supportTreshold" : 0.5,
+	"motifMinComplexity" : 0.5,
+	"numberOfSequentions" : 12,
+	"lengthOfSequence" : 200,
+	"logLevel" : {
+		"name" : "OFF",
+		"value" : 2147483647,
+		"resourceBundleName" : "sun.util.logging.resources.logging"
+	},
+	"OBLFepsilon" : 15,
+	"OBLFbeta" : 2.0,
+	"jumpRate" : 0.1,
+	"perturbationRate" : 0.2,
+	"stepC" : 1.5,
+	"OBLFstepMultiplier" : 2.0,
+	"useLevy" : 0,
+	"useObom" : 0
+}
