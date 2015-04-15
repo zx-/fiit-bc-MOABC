@@ -6,12 +6,11 @@
 package ResultParser;
 
 import artificial_bee_colony.Configuration;
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,62 +20,31 @@ import java.util.logging.Logger;
  */
 public class ResultWriter {
 
-    private HashMap<String,FileWriter> writers = new HashMap<>();
+    private HashMap<String,StringBuilder> configStringBuilders = new HashMap<>();
     private HashMap<String,HashSet<String>> resultsByConf = new HashMap<>();
     
     void writeNewDataSet(Configuration currentConfiguration, String dnaDatasetName) {
     
-        try {
-            
-            FileWriter fw;
-            
-            if(writers.containsKey(currentConfiguration.name)){
-                
-                fw = writers.get(currentConfiguration.name);
         
-            } else {
-            
-                fw = new FileWriter("results//assesmentResults//"+currentConfiguration.name,true);
-                writers.put(currentConfiguration.name, fw);
-            
-            }            
-             //the true will append the new data
-            fw.write(">dataset\n");//appends the string to the file
-            fw.write(dnaDatasetName+"\n");//appends the string to the file
-            fw.write(">instances\n");
-        }
-        catch(IOException e){
+        StringBuilder sb;
 
-            System.err.println("IOException: " + e.getMessage());
-            
-        }
-        
-    }
+        if (configStringBuilders.containsKey(currentConfiguration.name)) {
 
-    void writeInstance(Configuration currentConfiguration, String result) {
-        
-        try {
-            
-            FileWriter fw;
-            
-            if(writers.containsKey(currentConfiguration.name)){
-                
-                fw = writers.get(currentConfiguration.name);
-        
-            } else {
-            
-                fw = new FileWriter(currentConfiguration.name,true);
-                writers.put(currentConfiguration.name, fw);
-            
-            }            
-            fw.write(result+"\n");
-        }
-        catch(IOException ioe){
+            sb = configStringBuilders.get(currentConfiguration.name);
 
-            System.err.println("IOException: " + ioe.getMessage());
+        } else {
+
+            sb = new StringBuilder();
+            configStringBuilders.put(currentConfiguration.name, sb);
+
         }
+        //the true will append the new data
+        sb.append(">dataset\n");//appends the string to the file
+        sb.append(dnaDatasetName).append("\n");//appends the string to the file
+        sb.append(">instances\n");
         
-    }
+        
+    } 
     
     void addInstance(Configuration currentConfiguration, String result){
     
@@ -100,34 +68,48 @@ public class ResultWriter {
     
         HashSet<String> set = resultsByConf.get(currentConfiguration.name);
         
-        if(set != null){
+        if(set == null)
+            return;
         
-            for(String s:set){
+        StringBuilder sb = configStringBuilders.get(currentConfiguration.name);
+        
+       
+        for(String s:set){
                 
-                writeInstance(currentConfiguration, s);
+            sb.append(s+"\n");
             
-            }
-        
         }
+        
+        set.clear();
     
     }
-
-    void close(Configuration currentConfiguration) {
-    
-        if(writers.containsKey(currentConfiguration.name)){
-                
-            FileWriter fw = writers.get(currentConfiguration.name);
-            writers.remove(currentConfiguration.name);
+    void writeToFiles() {
+        
+        for(Entry<String,StringBuilder> entry:configStringBuilders.entrySet()){
+        
             try {
+                FileWriter fw = new FileWriter(
+                        "results//assesmentResults//" + entry.getKey(),
+                        false
+                );
+                
+                fw.write(entry.getValue().toString());
                 fw.close();
             } catch (IOException ex) {
-                System.err.println("IOException: " + ex.getMessage());
+                Logger.getLogger(ResultWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         
         }
         
+        
+    }
+
+    void reset() {
+        
+        configStringBuilders.clear();
         resultsByConf.clear();
-    
+        
     }
     
 }

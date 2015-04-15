@@ -79,7 +79,9 @@ public class BC_DNA {
             
         }
     
+        ResultParser.searchRunEnd();
         frame.endSearch();
+        
     }
     
     /**
@@ -169,16 +171,16 @@ public class BC_DNA {
         return seqList;
     }    
 
-    public int loadSequencesFromFiles(File files[]){
+    public int loadSequencesFromFiles(File files[],boolean reset){
     
         FileFilter fastaFilter = new FileNameExtensionFilter("fasta","fasta");
-        sequenceList.clear();
+        if(reset) sequenceList.clear();
         
         for(File f:files){
         
             if(f.isDirectory()){
             
-                loadSequencesFromFiles(f.listFiles());
+                loadSequencesFromFiles(f.listFiles(),false);
             
             } else {
             
@@ -204,16 +206,16 @@ public class BC_DNA {
         
     }
     
-    public int loadConfigurationsFromFiles(File files[]){
+    public int loadConfigurationsFromFiles(File files[],boolean reset){
         
         FileFilter jsonFilter = new FileNameExtensionFilter("json","json");
-        configList.clear();
+        if(reset) configList.clear();
         
         for(File f:files){
         
             if(f.isDirectory()){
             
-                loadConfigurationsFromFiles(f.listFiles());
+                loadConfigurationsFromFiles(f.listFiles(),false);
             
             } else {
             

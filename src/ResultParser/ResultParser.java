@@ -85,7 +85,6 @@ public class ResultParser {
         }
         
         resultWriter.writeAddedInstances(currentConfiguration);
-        resultWriter.close(currentConfiguration);
         
     }
 
@@ -137,22 +136,32 @@ public class ResultParser {
            paretoFrontWriter.write(colonyFitnesses,paretoFrontSize,beesCheckSize,currentConfiguration);
              
         }
-          
+        
+    }
+    
+    public static void searchRunEnd(){
+    
+        resultWriter.writeToFiles();
+        resultWriter.reset();
+    
     }
 
     public static void iterationSearchStart(Configuration cfg) {
         
-        if(!isDeepResultTest)
-            return;
         
-        Arrays.fill(comparisonCounts,0);
-        comparisons.clear();
         
-        Arrays.fill(levyCounts,0);
-        improvementsLevy.clear();
-        colonyFitnesses.clear();
-        paretoFrontSize.clear();
-        currentParetoFrontSize = 0;
+        if(isDeepResultTest){
+        
+            Arrays.fill(comparisonCounts,0);
+            comparisons.clear();
+
+            Arrays.fill(levyCounts,0);
+            improvementsLevy.clear();
+            colonyFitnesses.clear();
+            paretoFrontSize.clear();
+            currentParetoFrontSize = 0;
+        
+        }
         
     }
 

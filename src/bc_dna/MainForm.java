@@ -158,7 +158,7 @@ public class MainForm extends javax.swing.JFrame {
             File files[] = fileChooser.getSelectedFiles();
               // What to do with the file, e.g. display it in a TextArea
              // textarea.read( new FileReader( file.getAbsolutePath() ), null );
-                seqsLoaded = main.loadSequencesFromFiles(files);
+                seqsLoaded = main.loadSequencesFromFiles(files,true);
                 jTextAreaOutput.append(
                         String.format("Loaded %d sequence files\n", seqsLoaded)
                 );
@@ -191,7 +191,7 @@ public class MainForm extends javax.swing.JFrame {
             File files[] = fileChooser.getSelectedFiles();
               // What to do with the file, e.g. display it in a TextArea
              // textarea.read( new FileReader( file.getAbsolutePath() ), null );
-            configsLoaded = main.loadConfigurationsFromFiles(files);
+            configsLoaded = main.loadConfigurationsFromFiles(files,true);
             jTextAreaOutput.append(
                     String.format("Loaded %d configurations\n", configsLoaded)
             );
