@@ -233,8 +233,7 @@ public class Sorter {
         int j = 0, 
             i = 0,
             k = 0;
-        
-        
+                
         while(!paretoFronts.isParetoFrontEmpty(i)){
         
             List<Sortee> c = paretoFronts.getParetoFront(i);

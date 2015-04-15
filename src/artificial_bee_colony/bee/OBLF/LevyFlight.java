@@ -141,11 +141,12 @@ public class LevyFlight {
             
             if(r.nextDouble() > cfg.perturbationRate){
             
-                motifLength = (int) (mutatingBee.getMotifLength() 
-                    + r.nextDouble()*stepLength*(mutatingBee.getMotifLength() - randomBee.getMotifLength()));
+               // motifLength = (int) (mutatingBee.getMotifLength() 
+                 //   + r.nextDouble()*stepLength*(mutatingBee.getMotifLength() - randomBee.getMotifLength()));
                 // new = prev + step*U(0,1)*SLC
                 // SLC = prev - random
                 // step = 0,001*s(t) - s from levys
+                motifLength = (int) ( mutatingBee.getMotifLength() + stepLength*r.nextDouble()); 
                 
             } else {
             
@@ -164,8 +165,11 @@ public class LevyFlight {
             
                 if(r.nextDouble() > cfg.perturbationRate){
                 
+//                    newPositions[i] = (int) ( mutatingBeePositions[i] 
+//                        + r.nextDouble()*stepLength*( mutatingBeePositions[i] - randomBeePositions[i] ));
+//                
                     newPositions[i] = (int) ( mutatingBeePositions[i] 
-                        + r.nextDouble()*stepLength*( mutatingBeePositions[i] - randomBeePositions[i] ));
+                        + r.nextDouble()*stepLength);
                 
                 
                     if( newPositions[i] < 0 
