@@ -69,7 +69,8 @@ public class Configuration {
     public double OBLFstepMultiplier = 2;
     
     public int useLevy = 0;
-    public int useObom = 0;
+    public int useObom = 0;    
+    public boolean usePow4LengthNormalisation = false;
     
     public String getCurrentResultName(){
     
