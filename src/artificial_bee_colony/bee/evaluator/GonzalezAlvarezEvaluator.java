@@ -23,13 +23,28 @@ import org.apache.commons.math3.util.FastMath;
 public class GonzalezAlvarezEvaluator implements Evaluator{
     
     private Nucleotide[] nucleotides = Nucleotide.values();
-    private final double[] complexityMaxs;
+    private double[] complexityMaxs;
     private Configuration cfg;
     
     public GonzalezAlvarezEvaluator(Configuration config){
     
         complexityMaxs = calculateComplexityMaximums(config);
         cfg = config;
+    
+    }
+    
+    public GonzalezAlvarezEvaluator(){
+            
+        cfg = new Configuration();
+        complexityMaxs = calculateComplexityMaximums(cfg);
+    
+    }
+    
+    @Override
+    public void setConfiguration(Configuration c){
+    
+        complexityMaxs = calculateComplexityMaximums(c);
+        cfg = c;
     
     }
 

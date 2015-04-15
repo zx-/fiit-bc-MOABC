@@ -20,8 +20,8 @@ public class ResultParser {
     
     private static int beesCheckSize = 20;
     
-    private static final int comparisonCounts[] = new int[SearchPhase.values().length*2]; 
-    private static final int levyCounts[] = new int[2];
+    private static int comparisonCounts[] = new int[SearchPhase.values().length*2]; 
+    private static int levyCounts[] = new int[2];
     private static int currentParetoFrontSize = 0;
     public static Configuration currentConfiguration;
     
@@ -36,7 +36,23 @@ public class ResultParser {
     private static ResultWriter resultWriter = new ResultWriter();
     
     private static SearchPhase beeSearchPhase = SearchPhase.WORKER_PHASE;
+    public static Boolean isDeepResultTest = true;
     
+    public static void reset(){
+
+        comparisonCounts = new int[SearchPhase.values().length * 2];
+        levyCounts = new int[2];
+        currentParetoFrontSize = 0;
+        comparisons = new ArrayList<>();
+        improvementsLevy = new ArrayList<>();
+        paretoFrontSize = new ArrayList<>();
+        colonyFitnesses = new ArrayList<>();
+        comparisonWriter = new ComparisonsFileWriter();
+        levyImprovementsWriter = new LevyImprovementsFileWriter();
+        paretoFrontWriter = new ParetoFrontWriter();
+        resultWriter = new ResultWriter();
+  
+    }
     
     public static void levyStepLength(double stepLength) {
   
@@ -45,6 +61,9 @@ public class ResultParser {
     }
 
     public static void levyImprove(boolean b) {
+        
+        if(!isDeepResultTest)
+            return;
   
         levyCounts[b?0:1]++;
     
@@ -72,6 +91,9 @@ public class ResultParser {
 
     public static void parseColonyIteration(Bee[] colony, int iteration) {
     
+        if(!isDeepResultTest)
+            return;
+        
         System.out.println("RP:  i: "+iteration);
         // Comparisons
         for(int i: comparisonCounts)
@@ -108,13 +130,20 @@ public class ResultParser {
 
     public static void iterationSearchEnd() {
         
-        comparisonWriter.write(comparisons,currentConfiguration);
-        levyImprovementsWriter.write(improvementsLevy,currentConfiguration);
-        paretoFrontWriter.write(colonyFitnesses,paretoFrontSize,beesCheckSize,currentConfiguration);
+        if(isDeepResultTest){
         
+           comparisonWriter.write(comparisons,currentConfiguration);
+           levyImprovementsWriter.write(improvementsLevy,currentConfiguration);
+           paretoFrontWriter.write(colonyFitnesses,paretoFrontSize,beesCheckSize,currentConfiguration);
+             
+        }
+          
     }
 
     public static void iterationSearchStart(Configuration cfg) {
+        
+        if(!isDeepResultTest)
+            return;
         
         Arrays.fill(comparisonCounts,0);
         comparisons.clear();
@@ -128,6 +157,9 @@ public class ResultParser {
     }
 
     public static void beeComparison(boolean dominated) {
+        
+        if(!isDeepResultTest)
+            return;
         
         int index = beeSearchPhase.ordinal();
         index+=dominated?0:SearchPhase.values().length;
@@ -180,6 +212,9 @@ public class ResultParser {
         
     private static void parseFitnesses(Bee[] colony) {
    
+        if(!isDeepResultTest)
+            return;
+        
         Bee b;
         for( int i = 0; i < colony.length && i < beesCheckSize; i++ ){
         

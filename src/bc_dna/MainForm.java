@@ -5,17 +5,36 @@
  */
 package bc_dna;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.DefaultCaret;
+
 /**
  *
  * @author Róbert Cuprik <robertcuprik at hotmail.com>
  */
 public class MainForm extends javax.swing.JFrame {
 
+    private int configsLoaded = 0;
+    private int seqsLoaded = 0;
+    BC_DNA main;
+    private Boolean isWorking = false;
+    
     /**
      * Creates new form MainForm
      */
     public MainForm() {
+        
         initComponents();
+        jTextAreaOutput.setEditable(false);
+        main = new BC_DNA(this);
+        DefaultCaret caret = (DefaultCaret)jTextAreaOutput.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        
     }
 
     /**
@@ -27,22 +46,197 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fileChooser = new javax.swing.JFileChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaOutput = new javax.swing.JTextArea();
+        jButtonStart = new javax.swing.JButton();
+        jCheckBoxDeepAnalysis = new javax.swing.JCheckBox();
+        jCheckBoxSimilaritySorter = new javax.swing.JCheckBox();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        OpenFile = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        Exit = new javax.swing.JMenuItem();
+
+        fileChooser.setDialogTitle("Choose input sequences");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTextAreaOutput.setColumns(20);
+        jTextAreaOutput.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaOutput);
+
+        jButtonStart.setText("Start");
+        jButtonStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStartActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxDeepAnalysis.setText("Enable deep analysis");
+
+        jCheckBoxSimilaritySorter.setText("Use similarity priority sorter");
+
+        jMenu1.setText("File");
+
+        OpenFile.setText("Open sequences");
+        OpenFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpenFileActionPerformed(evt);
+            }
+        });
+        jMenu1.add(OpenFile);
+
+        jMenuItem1.setText("Open configs");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        Exit.setText("Exit");
+        Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Exit);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 735, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(328, Short.MAX_VALUE)
+                .addComponent(jCheckBoxSimilaritySorter)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBoxDeepAnalysis)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonStart)
+                .addGap(42, 42, 42))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 529, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonStart)
+                    .addComponent(jCheckBoxDeepAnalysis)
+                    .addComponent(jCheckBoxSimilaritySorter))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void OpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenFileActionPerformed
+        
+        if(isWorking)
+            return;
+        
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setMultiSelectionEnabled(true);
+        FileFilter filter = new FileNameExtensionFilter("fasta sequence","fasta");
+        fileChooser.setFileFilter(filter);        
+        fileChooser.setDialogTitle("Please select DNA sequence files");
+        fileChooser.setCurrentDirectory(new File("."));
+        
+        fileChooser.setFileSelectionMode(fileChooser.FILES_AND_DIRECTORIES);
+        int returnVal = fileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File files[] = fileChooser.getSelectedFiles();
+              // What to do with the file, e.g. display it in a TextArea
+             // textarea.read( new FileReader( file.getAbsolutePath() ), null );
+                seqsLoaded = main.loadSequencesFromFiles(files);
+                jTextAreaOutput.append(
+                        String.format("Loaded %d sequence files\n", seqsLoaded)
+                );
+      
+        } else {
+            jTextAreaOutput.append("Sequences: File access cancelled by user.\n");
+        }
+     
+    }//GEN-LAST:event_OpenFileActionPerformed
+
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+        System.exit(0); 
+    }//GEN-LAST:event_ExitActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        if(isWorking)
+            return;
+        
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setMultiSelectionEnabled(true);
+        FileFilter filter = new FileNameExtensionFilter("json configs","json");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setDialogTitle("Please select configuration files");
+        fileChooser.setCurrentDirectory(new File("."));
+        
+        fileChooser.setFileSelectionMode(fileChooser.FILES_AND_DIRECTORIES);
+        int returnVal = fileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File files[] = fileChooser.getSelectedFiles();
+              // What to do with the file, e.g. display it in a TextArea
+             // textarea.read( new FileReader( file.getAbsolutePath() ), null );
+            configsLoaded = main.loadConfigurationsFromFiles(files);
+            jTextAreaOutput.append(
+                    String.format("Loaded %d configurations\n", configsLoaded)
+            );
+      
+        } else {
+            jTextAreaOutput.append("Configs: File access cancelled by user.\n");
+        }
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
+        
+        if(configsLoaded!= 0 && seqsLoaded!= 0){
+            
+            isWorking = true;
+            jTextAreaOutput.append("Start\n");
+            jButtonStart.setEnabled(false);
+            
+            Thread queryThread = new Thread() {
+                public void run() {
+                    main.run(
+                       jCheckBoxDeepAnalysis.isSelected(), 
+                       jCheckBoxSimilaritySorter.isSelected() 
+                    );
+                }
+            };
+            queryThread.start();  
+            
+        
+        } else {
+        
+            jTextAreaOutput.append("Files not loaded\n");
+        
+        }
+        
+    }//GEN-LAST:event_jButtonStartActionPerformed
+
+    public void printPercentage(double percentage){
+    
+        jTextAreaOutput.append(        
+                String.format("Done %f%%\n", percentage)        
+        );
+    
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -79,5 +273,24 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Exit;
+    private javax.swing.JMenuItem OpenFile;
+    private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JButton jButtonStart;
+    private javax.swing.JCheckBox jCheckBoxDeepAnalysis;
+    private javax.swing.JCheckBox jCheckBoxSimilaritySorter;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextAreaOutput;
     // End of variables declaration//GEN-END:variables
+
+    void endSearch() {
+   
+        jTextAreaOutput.append("End\n");
+            isWorking = false;
+            jButtonStart.setEnabled(true);
+    
+    }
 }

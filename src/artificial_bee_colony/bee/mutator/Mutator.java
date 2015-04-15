@@ -5,6 +5,7 @@
  */
 package artificial_bee_colony.bee.mutator;
 
+import artificial_bee_colony.Configuration;
 import artificial_bee_colony.bee.Bee;
 
 /**
@@ -14,5 +15,6 @@ import artificial_bee_colony.bee.Bee;
 public interface Mutator {
     
     public Bee mutate(Bee b, Bee[] colony);
+    public void setConfiguration(Configuration c);
     
 }

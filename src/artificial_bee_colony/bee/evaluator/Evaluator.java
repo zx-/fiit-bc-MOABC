@@ -18,5 +18,7 @@ public interface Evaluator {
     public void evaluate(Bee[] b, Configuration c);
     public void evaluate(Bee b);
     public void evaluate(Bee[] b);
+
+    public void setConfiguration(Configuration c);
     
 }

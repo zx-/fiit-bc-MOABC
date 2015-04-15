@@ -17,13 +17,20 @@ import java.util.Random;
  */
 public class BasicMutator implements Mutator {
 
-    private final Configuration cfg;
+    private Configuration cfg;
     private final Evaluator e;
     
-    public BasicMutator(Evaluator e, Configuration c){
+    public BasicMutator(Evaluator e){
     
-        cfg = c;
+        cfg = new Configuration();
         this.e = e;
+    
+    }
+    
+    @Override
+    public void setConfiguration(Configuration c){
+    
+        this.cfg = c;
     
     }
 

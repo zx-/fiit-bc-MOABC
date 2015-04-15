@@ -107,6 +107,8 @@ public class Tester {
         
             ResultParser.setCurrentConfiguration(c);
             c.currentTestName = testName;
+            evaluator.setConfiguration(c);
+            mutator.setConfiguration(c);
             new MotifFindingSolver(
                    evaluator,
                    c,

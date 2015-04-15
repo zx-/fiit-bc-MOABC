@@ -4,7 +4,7 @@
 	"numberOfRepetitionsPerInput" : 1,
 	"motifMaxLength" : 64,
 	"motifMinLength" : 7,
-	"maxIterations" : 1000,
+	"maxIterations" : 100,
 	"onlookersSize" : 10,
 	"workersSize" : 10,
 	"scoutsSize" : 1,

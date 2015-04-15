@@ -6,6 +6,7 @@
 package artificial_bee_colony;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,7 +21,7 @@ import java.util.logging.Level;
  */
 public class Configuration {
     
-    public static Configuration getFromJson(String s){
+    public static Configuration getFromJson(String s) throws JsonSyntaxException{
     
         Gson gson = new Gson();
         Configuration c = gson.fromJson(s, Configuration.class);

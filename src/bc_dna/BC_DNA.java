@@ -24,6 +24,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import motif.Motif;
 import motif.PFMLoader;
 import motif.PFMNotLoadedException;
@@ -36,34 +39,24 @@ import tester.Tester;
  */
 public class BC_DNA {
 
-    /**
-     * @param args the command line arguments
-     * @throws motif.PFMNotLoadedException
-     */
-    public static void main(String[] args) throws PFMNotLoadedException, FileNotFoundException, IOException {
+    private ArrayList<DNASequence[]> sequenceList = new ArrayList<>();
+    private ArrayList<Configuration> configList = new ArrayList<>();
+    private final MainForm frame;
+    
+    public BC_DNA(MainForm frame){
+    
+        this.frame = frame;
+    
+    }
+    
+    public void run(Boolean deepResults, Boolean usePriority){
+    
+        Evaluator e = new GonzalezAlvarezEvaluator();
+        Sorter s = usePriority?new SimilarityPrioritySorter():new Sorter();
+        ResultParser.isDeepResultTest = deepResults;
+        double i = 1;
         
-        
-        Configuration c = new Configuration();
-        Configuration[] configs = new Configuration[3];
-       // configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def.json"));
-        configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def3.json"));
-        configs[1] = Configuration.getFromJsonFile(new File("assets\\configs\\200b500it.json"));
-        configs[2] = Configuration.getFromJsonFile(new File("assets\\configs\\200b1000it.json"));
-        
-        
-        ArrayList<DNASequence[]> seqList = openSequences();
-       // ArrayList<DNASequence[]> seqList =new ArrayList<>();
-        
-        DNASequence[] seq = DNASequenceLoader.loadFromFile("assets\\sequences\\real\\hm20r.fasta");
-        //seqList.add(seq);
-          
-//        for(int i= 0; i<size;i++)
-//            System.out.println(seq[i].toJSON());
-        Evaluator e = new GonzalezAlvarezEvaluator(c);
-        Sorter s = new Sorter();
-        //Sorter s = new SimilarityPrioritySorter();
-        
-        for(DNASequence[] sequence: seqList){
+        for(DNASequence[] sequence: sequenceList){
         
             if(sequence.length > 1){
             
@@ -71,23 +64,76 @@ public class BC_DNA {
                 .TesterBuilder(sequence[0].getName())
                     .evaluator(e)
                     .sorter(s)
-                    .mutator(new BasicMutator(e, c))
+                    .mutator(new BasicMutator(e))
                     .dnaSequences(sequence)
-                    .configurations(configs)
+                    .configurations(configList.toArray(new Configuration[0]))
                     .build();
 
                 tester.test();
 
                 ResultParser.printResults();   
                 
-            }
+            }         
+            
+            frame.printPercentage((i++/sequenceList.size()*100));
             
         }
-        
-        
-        
+    
+        frame.endSearch();
     }
     
+    /**
+     * @param args the command line arguments
+     * @throws motif.PFMNotLoadedException
+     */
+//    public static void main(String[] args) throws PFMNotLoadedException, FileNotFoundException, IOException {
+//        
+//        
+//        Configuration c = new Configuration();
+//        Configuration[] configs = new Configuration[3];
+//       // configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def.json"));
+//        configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def3.json"));
+//        configs[1] = Configuration.getFromJsonFile(new File("assets\\configs\\200b500it.json"));
+//        configs[2] = Configuration.getFromJsonFile(new File("assets\\configs\\200b1000it.json"));
+//        
+//        
+//        ArrayList<DNASequence[]> seqList = openSequences();
+//       // ArrayList<DNASequence[]> seqList =new ArrayList<>();
+//        
+//        DNASequence[] seq = DNASequenceLoader.loadFromFile("assets\\sequences\\real\\hm20r.fasta");
+//        //seqList.add(seq);
+//          
+////        for(int i= 0; i<size;i++)
+////            System.out.println(seq[i].toJSON());
+//        Evaluator e = new GonzalezAlvarezEvaluator(c);
+//        Sorter s = new Sorter();
+//        //Sorter s = new SimilarityPrioritySorter();
+//        
+//        for(DNASequence[] sequence: seqList){
+//        
+//            if(sequence.length > 1){
+//            
+//                Tester tester = new Tester
+//                .TesterBuilder(sequence[0].getName())
+//                    .evaluator(e)
+//                    .sorter(s)
+//                    .mutator(new BasicMutator(e))
+//                    .dnaSequences(sequence)
+//                    .configurations(configs)
+//                    .build();
+//
+//                tester.test();
+//
+//                ResultParser.printResults();   
+//                
+//            }
+//            
+//        }
+//        
+//        
+//        
+//    }
+//    
     public static ArrayList<DNASequence[]> openSequences(){
     
         File defDir = new File("assets\\sequences\\");
@@ -121,6 +167,75 @@ public class BC_DNA {
         }
         
         return seqList;
+    }    
+
+    public int loadSequencesFromFiles(File files[]){
+    
+        FileFilter fastaFilter = new FileNameExtensionFilter("fasta","fasta");
+        sequenceList.clear();
+        
+        for(File f:files){
+        
+            if(f.isDirectory()){
+            
+                loadSequencesFromFiles(f.listFiles());
+            
+            } else {
+            
+                if(fastaFilter.accept(f)){
+                
+                    try{
+                        
+                        DNASequence[] seq = DNASequenceLoader.loadFromFile(f);
+                        sequenceList.add(seq);
+                    
+                    } catch ( Exception e){
+                    
+                    
+                    }
+                
+                }
+            
+            }
+            
+        }
+    
+        return sequenceList.size();
+        
+    }
+    
+    public int loadConfigurationsFromFiles(File files[]){
+        
+        FileFilter jsonFilter = new FileNameExtensionFilter("json","json");
+        configList.clear();
+        
+        for(File f:files){
+        
+            if(f.isDirectory()){
+            
+                loadConfigurationsFromFiles(f.listFiles());
+            
+            } else {
+            
+                if(jsonFilter.accept(f)){
+                
+                    try{
+                        
+                        Configuration c = Configuration.getFromJsonFile(f);
+                        configList.add(c);
+                    
+                    } catch ( Exception e){
+                    
+                    
+                    }
+                
+                }
+            
+            }
+            
+        }
+    
+        return configList.size();
     }    
     
 }
