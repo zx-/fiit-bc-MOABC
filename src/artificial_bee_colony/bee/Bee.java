@@ -224,7 +224,7 @@ public class Bee {
             }
         
         }           
-        
+        /*
         // attempt with sqrt
         if(objNumber == 0 && normalise){
             
@@ -232,7 +232,7 @@ public class Bee {
             norm = Math.pow(norm, 0.25);
             return norm;
         
-        }
+        }*/
     
         return this.objectives.get(objNumber)/norm;
         

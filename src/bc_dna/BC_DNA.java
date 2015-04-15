@@ -60,8 +60,8 @@ public class BC_DNA {
 //        for(int i= 0; i<size;i++)
 //            System.out.println(seq[i].toJSON());
         Evaluator e = new GonzalezAlvarezEvaluator(c);
-        //Sorter s = new Sorter();
-        Sorter s = new SimilarityPrioritySorter();
+        Sorter s = new Sorter();
+        //Sorter s = new SimilarityPrioritySorter();
         
         for(DNASequence[] sequence: seqList){
         
