@@ -23,6 +23,8 @@ public class Sorter {
     public static final Logger logger = Logger.getLogger( Sorter.class.getName() );
     Sortee[] sortees = null;
     ParetoFronts paretoFronts = new ParetoFronts();
+    protected SingleCrowdingDistanceSorter crowdingDistanceSorter = null;
+    
     
    
     public List<Bee> sortColony(Bee[] colony){
@@ -92,7 +94,18 @@ public class Sorter {
         
         // SORT PARETO FRONTS BY CROWDING DISTANCE
         
-        sortParetoFronts(colony);
+        if(crowdingDistanceSorter == null){
+            
+            sortParetoFronts(colony);
+        
+        } else {
+        
+            crowdingDistanceSorter.sortParetoFronts(paretoFronts, colony);
+        
+        }
+        
+        
+        
         
         paretoFronts.fill(colony);
         if(logger.isLoggable(Level.INFO)){
@@ -259,5 +272,49 @@ public class Sorter {
         }
     }
 
+    /**
+     * @return the sorter
+     */
+    public SingleCrowdingDistanceSorter getCDSorter() {
+        return crowdingDistanceSorter;
+    }
+
+    /**
+     * @param sorter the sorter to set
+     */
+    public void setCDSorter(SingleCrowdingDistanceSorter sorter) {
+        this.crowdingDistanceSorter = sorter;
+    }
+
+    public List<Bee> getSortedListByObjective(Bee colony[],int objective, int limit,boolean ascending){
+    
+        List<Bee> list = new ArrayList<>();
+        List<Sortee> listSortee = new ArrayList<>();
+        
+        for(int i = 0; i < limit && i < colony.length; i++){
+        
+            listSortee.add(new Sortee(colony[i]));
+        
+        }
+        
+        Collections.sort(listSortee, Sortee.getComparatorByObjective(objective));
+        
+        if(ascending){
+        
+            for(int i = 0; i < listSortee.size(); i++)
+                list.add(listSortee.get(i).bee);
+        
+        } else {
+        
+            for(int i = listSortee.size() -1; i>=0; i--)
+                list.add(listSortee.get(i).bee);
+        
+        }
+        
+        
+        return list;
+    
+    }
+    
     
 }

@@ -104,8 +104,10 @@ public class Tester {
             
             
             Sorter.logger.setLevel(c.logLevel);
+            System.out.println(seq[0].getName());
         
             ResultParser.setCurrentConfiguration(c);
+            ResultParser.beeSorter = sorter;
             c.currentTestName = testName;
             evaluator.setConfiguration(c);
             mutator.setConfiguration(c);

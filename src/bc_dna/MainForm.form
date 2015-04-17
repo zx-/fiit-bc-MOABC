@@ -72,7 +72,9 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="328" max="32767" attributes="0"/>
+              <EmptySpace pref="261" max="32767" attributes="0"/>
+              <Component id="jCheckBoxSingleDistance" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jCheckBoxSimilaritySorter" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jCheckBoxDeepAnalysis" min="-2" max="-2" attributes="0"/>
@@ -92,6 +94,7 @@
                   <Component id="jButtonStart" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jCheckBoxDeepAnalysis" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jCheckBoxSimilaritySorter" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jCheckBoxSingleDistance" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -130,6 +133,11 @@
     <Component class="javax.swing.JCheckBox" name="jCheckBoxSimilaritySorter">
       <Properties>
         <Property name="text" type="java.lang.String" value="Use similarity priority sorter"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBoxSingleDistance">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="singe CD"/>
       </Properties>
     </Component>
   </SubComponents>

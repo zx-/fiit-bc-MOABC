@@ -8,6 +8,7 @@ package ResultParser;
 import artificial_bee_colony.Configuration;
 import artificial_bee_colony.bee.Bee;
 import artificial_bee_colony.bee.sorter.ParetoFronts;
+import artificial_bee_colony.bee.sorter.Sorter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -37,6 +38,7 @@ public class ResultParser {
     
     private static SearchPhase beeSearchPhase = SearchPhase.WORKER_PHASE;
     public static Boolean isDeepResultTest = true;
+    public static Sorter beeSorter = null;
     
     public static void reset(){
 
@@ -56,7 +58,10 @@ public class ResultParser {
     
     public static void levyStepLength(double stepLength) {
   
+        if(!isDeepResultTest)
+            return;
         
+        //System.out.println("Levy step: "+stepLength);
     
     }
 
@@ -75,12 +80,31 @@ public class ResultParser {
         resultWriter
             .writeNewDataSet(currentConfiguration,colony[0].getDNADatasetName());
         
-        for(int i=0; i< currentConfiguration.workersSize; i++){
+        if(beeSorter == null ) {
+        
+            for(int i=0; i< currentConfiguration.workersSize && i < 15; i++){
+
+                resultWriter.addInstance(
+                        currentConfiguration,
+                        BeeResultParser.parseBeeMotif(colony[i])
+                        );
+
+            }
+        
+        } else {
+        
+            int i = 0;
+            for(Bee b: beeSorter.getSortedListByObjective(colony, 2, currentConfiguration.workersSize, false)){
             
-            resultWriter.addInstance(
-                    currentConfiguration,
-                    BeeResultParser.parseBeeMotif(colony[i])
-                    );
+                resultWriter.addInstance(
+                        currentConfiguration,
+                        BeeResultParser.parseBeeMotif(b)
+                        );
+                
+                if(++i > 15)
+                    break;
+            
+            }
         
         }
         
@@ -216,6 +240,7 @@ public class ResultParser {
     public static void paretoFrontSize(int size) {
         
         currentParetoFrontSize = size;
+        System.out.println("Pareto size: "+size);
         
     }
         

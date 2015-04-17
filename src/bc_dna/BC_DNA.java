@@ -12,6 +12,7 @@ import artificial_bee_colony.bee.evaluator.Evaluator;
 import artificial_bee_colony.bee.evaluator.GonzalezAlvarezEvaluator;
 import artificial_bee_colony.bee.mutator.BasicMutator;
 import artificial_bee_colony.bee.sorter.SimilarityPrioritySorter;
+import artificial_bee_colony.bee.sorter.SingleCrowdingDistanceSorter;
 import artificial_bee_colony.bee.sorter.Sorter;
 import dna_generator.DNASequenceGenerator;
 import dna_sequence.DNASequence;
@@ -49,10 +50,15 @@ public class BC_DNA {
     
     }
     
-    public void run(Boolean deepResults, Boolean usePriority){
+    public void run(Boolean deepResults, Boolean usePriority,Boolean useSingleCD){
     
         Evaluator e = new GonzalezAlvarezEvaluator();
         Sorter s = usePriority?new SimilarityPrioritySorter():new Sorter();
+        if(useSingleCD){
+        
+            s.setCDSorter(new SingleCrowdingDistanceSorter());
+        
+        }
         ResultParser.isDeepResultTest = deepResults;
         double i = 1;
         

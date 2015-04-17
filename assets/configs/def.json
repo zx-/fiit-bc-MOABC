@@ -1,12 +1,12 @@
 {
-	"name" : "def",
+	"name" : "def-everything",
 	"currentTestName" : "",
 	"numberOfRepetitionsPerInput" : 1,
 	"motifMaxLength" : 64,
 	"motifMinLength" : 7,
 	"maxIterations" : 100,
-	"onlookersSize" : 10,
-	"workersSize" : 10,
+	"onlookersSize" : 50,
+	"workersSize" : 50,
 	"scoutsSize" : 1,
 	"supportTreshold" : 0.5,
 	"motifMinComplexity" : 0.5,
@@ -18,11 +18,11 @@
 		"resourceBundleName" : "sun.util.logging.resources.logging"
 	},
 	"OBLFepsilon" : 15,
-	"OBLFbeta" : 2.0,
+	"OBLFbeta" : 1.5,
 	"jumpRate" : 0.1,
 	"perturbationRate" : 0.2,
 	"stepC" : 1.5,
-	"OBLFstepMultiplier" : 2.0,
-	"useLevy" : 0,
-	"useObom" : 0
+	"OBLFstepMultiplier" : 10.0,
+	"useLevy" : 1,
+	"useObom" : 1
 }

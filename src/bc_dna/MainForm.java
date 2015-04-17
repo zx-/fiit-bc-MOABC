@@ -52,6 +52,7 @@ public class MainForm extends javax.swing.JFrame {
         jButtonStart = new javax.swing.JButton();
         jCheckBoxDeepAnalysis = new javax.swing.JCheckBox();
         jCheckBoxSimilaritySorter = new javax.swing.JCheckBox();
+        jCheckBoxSingleDistance = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         OpenFile = new javax.swing.JMenuItem();
@@ -76,6 +77,8 @@ public class MainForm extends javax.swing.JFrame {
         jCheckBoxDeepAnalysis.setText("Enable deep analysis");
 
         jCheckBoxSimilaritySorter.setText("Use similarity priority sorter");
+
+        jCheckBoxSingleDistance.setText("singe CD");
 
         jMenu1.setText("File");
 
@@ -116,7 +119,9 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(328, Short.MAX_VALUE)
+                .addContainerGap(261, Short.MAX_VALUE)
+                .addComponent(jCheckBoxSingleDistance)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxSimilaritySorter)
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBoxDeepAnalysis)
@@ -133,7 +138,8 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonStart)
                     .addComponent(jCheckBoxDeepAnalysis)
-                    .addComponent(jCheckBoxSimilaritySorter))
+                    .addComponent(jCheckBoxSimilaritySorter)
+                    .addComponent(jCheckBoxSingleDistance))
                 .addContainerGap())
         );
 
@@ -214,7 +220,8 @@ public class MainForm extends javax.swing.JFrame {
                 public void run() {
                     main.run(
                        jCheckBoxDeepAnalysis.isSelected(), 
-                       jCheckBoxSimilaritySorter.isSelected() 
+                       jCheckBoxSimilaritySorter.isSelected(),
+                       jCheckBoxSingleDistance.isSelected() 
                     );
                 }
             };
@@ -279,6 +286,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton jButtonStart;
     private javax.swing.JCheckBox jCheckBoxDeepAnalysis;
     private javax.swing.JCheckBox jCheckBoxSimilaritySorter;
+    private javax.swing.JCheckBox jCheckBoxSingleDistance;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

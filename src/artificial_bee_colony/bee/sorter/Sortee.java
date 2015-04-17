@@ -49,6 +49,13 @@ class Sortee implements Comparable<Sortee>{
         
     }
     
+    public Sortee(){
+    }
     
+    public Sortee(Bee b){
+    
+        this.bee = b;
+            
+    }
         
 }

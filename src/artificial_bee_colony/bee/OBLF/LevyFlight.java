@@ -106,8 +106,16 @@ public class LevyFlight {
         v = Math.pow(v, 1.0/cfg.OBLFbeta);
         
         s = u/v;        
+        s = s*cfg.OBLFstepMultiplier;
         
-        return s*cfg.OBLFstepMultiplier;
+        if(Math.abs(s) > 300){
+        
+            s = 0;
+        
+        }
+        
+        
+        return s;
     
     }
 
@@ -184,6 +192,14 @@ public class LevyFlight {
                 } else {
                 
                     newPositions[i] = mutatingBeePositions[i];
+                    if( newPositions[i] < 0 
+                        || newPositions[i] + motifLength > seqs[i].getLength() )
+                    {
+                
+                        isSolution = false;
+                        break;
+                
+                    }
                     
                 }
                 
