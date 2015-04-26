@@ -41,7 +41,7 @@ public class LevyFlight {
     
     public void applyLevyFlight(List<Bee> firstParetoFront,Bee[] colony){
     
-        for(int i = 0; i < firstParetoFront.size(); i++){                 
+        for(int i = 0; i < firstParetoFront.size() && i < 40; i++){                 
             
             colony[i] = applyLevyFlight(colony[i], colony);
                     

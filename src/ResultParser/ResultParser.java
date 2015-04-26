@@ -9,6 +9,7 @@ import artificial_bee_colony.Configuration;
 import artificial_bee_colony.bee.Bee;
 import artificial_bee_colony.bee.sorter.ParetoFronts;
 import artificial_bee_colony.bee.sorter.Sorter;
+import artificial_bee_colony.postprocessor.StringMotifResult;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -74,6 +75,27 @@ public class ResultParser {
     
     }
 
+    public static void parseFinalResults(StringMotifResult[] res){
+        
+        if(res.length == 0)
+            return;
+        
+        resultWriter
+            .writeNewDataSet(currentConfiguration,
+                    res[0].getBee().getDNADatasetName());
+        
+        for(StringMotifResult r: res){
+        
+            resultWriter.addInstance(
+                        currentConfiguration,
+                        r.toString()
+                        );
+        
+        }
+        
+         resultWriter.writeAddedInstances(currentConfiguration);
+        
+    }
     
     public static void parseFinalResults(Bee[] colony) {
         

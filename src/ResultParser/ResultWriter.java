@@ -62,7 +62,7 @@ public class ResultWriter {
         
         set.add(result);
     
-    }
+    }    
     
     void writeAddedInstances(Configuration currentConfiguration){
     
@@ -111,5 +111,6 @@ public class ResultWriter {
         resultsByConf.clear();
         
     }
+
     
 }

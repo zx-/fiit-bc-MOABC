@@ -107,7 +107,7 @@ public class Tester {
             System.out.println(seq[0].getName());
         
             ResultParser.setCurrentConfiguration(c);
-            ResultParser.beeSorter = sorter;
+//            ResultParser.beeSorter = sorter;
             c.currentTestName = testName;
             evaluator.setConfiguration(c);
             mutator.setConfiguration(c);

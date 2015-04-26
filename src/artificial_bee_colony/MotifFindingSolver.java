@@ -14,7 +14,9 @@ import artificial_bee_colony.bee.mutator.Mutator;
 import artificial_bee_colony.bee.randomSelector.RandomSelector;
 import artificial_bee_colony.bee.randomSelector.RandomValuedSelection;
 import artificial_bee_colony.bee.sorter.Sorter;
+import artificial_bee_colony.postprocessor.SimplePostprocessor;
 import dna_sequence.DNASequence;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,13 +61,31 @@ public class MotifFindingSolver {
     public void solve(DNASequence[] sequences, Configuration config){
     
         int i;
-        Bee[] colony;
+        Bee[] colony = new Bee[0];
+        ArrayList<Bee> finalColony = new ArrayList<>();
+        SimplePostprocessor proc = new SimplePostprocessor();
         
         // initiate bees
-        colony = Bee.createBeeArraySatisfyingConstraints(sequences, config, config.getColonySize(),evaluator);
+       
+        for(i = 0; i<config.numberOfRepetitionsPerInput;i++){
+            
+            colony = Bee.createBeeArraySatisfyingConstraints(sequences, config, config.getColonySize(),evaluator);
+            iterate(sequences,colony,config);
+            for(Bee b:colony)
+                finalColony.add(b);
+            
+            
+        }
         
-        iterate(sequences,colony,config);
-    
+        
+        
+        ResultParser.parseFinalResults(
+        
+                proc.processColony(finalColony,sorter)
+                
+        );
+
+        
     }
 
     private void iterate(DNASequence[] sequences, Bee[] colony, Configuration cfg){
@@ -187,7 +207,7 @@ public class MotifFindingSolver {
             
         }
         
-        ResultParser.parseFinalResults(colony);
+//        ResultParser.parseFinalResults(colony);
         ResultParser.iterationSearchEnd();
         
         for(i = 0 ; i < 10 ; i++){

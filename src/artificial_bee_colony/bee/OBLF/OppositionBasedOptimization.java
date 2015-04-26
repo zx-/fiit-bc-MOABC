@@ -50,7 +50,7 @@ public class OppositionBasedOptimization {
         boolean isValid = true;
 
         if (r.nextDouble() < cfg.jumpRate) {
-
+            
             generateBorders(colony, minimums, maximums);
 
             for (Bee curB : colony) {

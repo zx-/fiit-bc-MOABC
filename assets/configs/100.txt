@@ -23,6 +23,6 @@
 	"perturbationRate" : 0.2,
 	"stepC" : 1.5,
 	"OBLFstepMultiplier" : 10.0,
-	"useLevy" : 1,
-	"useObom" : 1
+	"useLevy" : 0,
+	"useObom" : 0
 }
