@@ -1,0 +1,28 @@
+{
+	"name" : "200b500it-complexity postprocess",
+	"currentTestName" : "",
+	"numberOfRepetitionsPerInput" : 3,
+	"motifMaxLength" : 64,
+	"motifMinLength" : 7,
+	"maxIterations" : 500,
+	"onlookersSize" : 50,
+	"workersSize" : 110,
+	"scoutsSize" : 60,
+	"supportTreshold" : 0.5,
+	"motifMinComplexity" : 0.5,
+	"numberOfSequentions" : 12,
+	"lengthOfSequence" : 200,
+	"logLevel" : {
+		"name" : "OFF",
+		"value" : 2147483647,
+		"resourceBundleName" : "sun.util.logging.resources.logging"
+	},
+	"OBLFepsilon" : 15,
+	"OBLFbeta" : 1.2,
+	"jumpRate" : 0.1,
+	"perturbationRate" : 0.2,
+	"stepC" : 1.5,
+	"OBLFstepMultiplier" : 2.0,
+	"useLevy" : 0,
+	"useObom" : 0
+}

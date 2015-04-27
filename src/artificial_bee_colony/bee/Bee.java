@@ -27,6 +27,7 @@ public class Bee {
     private boolean satisfiesConstraints;
     private final HashMap<Integer,Double> objectives;
     private double[][] PFM;
+    private double complexity = 0;
             
     private Bee(DNASequence[] sequences, Configuration config){
         
@@ -308,6 +309,20 @@ public class Bee {
      */
     public void setPFM(double[][] pfm) {
         this.PFM = pfm;
+    }
+
+    /**
+     * @return the complexity
+     */
+    public double getComplexity() {
+        return complexity;
+    }
+
+    /**
+     * @param complexity the complexity to set
+     */
+    public void setComplexity(double complexity) {
+        this.complexity = complexity;
     }
     
 }

@@ -92,6 +92,7 @@ public class GonzalezAlvarezEvaluator implements Evaluator{
         }      
         
         bee.setMultipleObjectives(motifLenght,support,similarity);
+        bee.setComplexity(complexity);
         
         if( motifLenght >= config.motifMinLength && motifLenght <= config.motifMaxLength 
             && complexity >= config.motifMinComplexity 

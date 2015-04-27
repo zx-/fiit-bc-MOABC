@@ -27,9 +27,16 @@ public class SimplePostprocessor {
         
         int i = 0;
         
-        for(Bee b: firstPareto){
+        for(int j= 0; j<colony.size(); j++){
+            
+            Bee b = colony.get(j);
         
-            if(b.getObjectiveSimilarity(true) > 0.65){
+            // similarity/
+            // support
+            
+            // complexitY?
+            
+            if(b.getComplexity()> 0.75 && b.getObjectiveSupport(true) > 0.65 && b.getObjectiveSimilarity(true) > 0.65){
             
                 list.add(StringMotifResult.getFromBee(b));
             
