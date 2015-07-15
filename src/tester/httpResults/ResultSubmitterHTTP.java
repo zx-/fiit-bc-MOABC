@@ -52,7 +52,7 @@ public class ResultSubmitterHTTP {
         
         Document doc = Jsoup.parse(htmlResp);            
         System.out.println(s.getConfirmationID(doc));
-        System.out.println(s.getDocumentResults(doc).get("Total"));
+        System.out.println(s.getDocumentResults(doc));
     
     }
     /**
@@ -116,9 +116,9 @@ public class ResultSubmitterHTTP {
     
     } 
     
-    public HashMap<String, HashMap<String, String>> getDocumentResults(Document doc) {
+    public ArrayList<HashMap<String, String>> getDocumentResults(Document doc) {
         
-        HashMap<String, HashMap<String, String>> results = new HashMap<>();
+        ArrayList<HashMap<String, String>> results = new ArrayList<>();
         Elements trs = doc.getElementsByTag("tr");
         
         // parse table header
@@ -134,22 +134,21 @@ public class ResultSubmitterHTTP {
         //parseData
         Elements data;
         HashMap<String, String> rowDataMap;
-        String rowName;
-        for(Element tr:trs){
-            
+        
+        for(Element tr:trs){            
             
             data = tr.children();
         
             rowDataMap = new HashMap<>();
-            rowName = data.get(0).html().trim();
             
-            for(int i = 1; i < data.size(); i++){
+            for(int i = 0; i < data.size(); i++){
             
                 rowDataMap.put(stringHeaders.get(i), data.get(i).html().trim());
             
             }
             
-            results.put(rowName, rowDataMap);
+            rowDataMap.remove("");
+            results.add(rowDataMap);
         
         }        
         
