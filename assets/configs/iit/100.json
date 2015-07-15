@@ -1,13 +1,13 @@
 {
-	"name" : "100",
+	"name" : "120-50-3rep-OBFL2-wcd",
 	"currentTestName" : "",
-	"numberOfRepetitionsPerInput" : 1,
+	"numberOfRepetitionsPerInput" : 3,
 	"motifMaxLength" : 64,
 	"motifMinLength" : 7,
 	"maxIterations" : 100,
 	"onlookersSize" : 100,
-	"workersSize" : 100,
-	"scoutsSize" : 2,
+	"workersSize" : 120,
+	"scoutsSize" : 50,
 	"supportTreshold" : 0.5,
 	"motifMinComplexity" : 0.5,
 	"numberOfSequentions" : 12,
@@ -18,11 +18,11 @@
 		"resourceBundleName" : "sun.util.logging.resources.logging"
 	},
 	"OBLFepsilon" : 15,
-	"OBLFbeta" : 1.5,
+	"OBLFbeta" : 1.1,
 	"jumpRate" : 0.1,
-	"perturbationRate" : 0.2,
+	"perturbationRate" : 0.3,
 	"stepC" : 1.5,
 	"OBLFstepMultiplier" : 10.0,
-	"useLevy" : 0,
-	"useObom" : 0
+	"useLevy" : 1,
+	"useObom" : 1
 }

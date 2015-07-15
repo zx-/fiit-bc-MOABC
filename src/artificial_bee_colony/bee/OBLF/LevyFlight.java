@@ -143,8 +143,12 @@ public class LevyFlight {
         int[] mutatingBeePositions = mutatingBee.getSequenceMotifPositions();
         int[] randomBeePositions = randomBee.getSequenceMotifPositions();
         
+        int genCount = 0;
         while(!isSolution){
         
+            if( genCount++ > cfg.maxGenerationTries)
+                return mutatingBee;
+            
             isSolution = true;
             
             if(r.nextDouble() > cfg.perturbationRate){

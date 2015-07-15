@@ -42,7 +42,8 @@ public class SingleCrowdingDistanceSorter {
                 for(it = 0; it < c.size(); it++){
                 
                     
-                    if( it!= 0 && c.get(it)!= c.get(it - 1)){
+                    if( it!= 0 
+                            && c.get(it).bee.getObjective(j,false) != c.get(it - 1).bee.getObjective(j,false)){
                     
                         sameFitnessCounts.add(curCount);
                         curCount=0;

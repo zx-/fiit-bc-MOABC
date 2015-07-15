@@ -71,6 +71,10 @@ public class Configuration {
     public int useLevy = 0;
     public int useObom = 0;    
     public boolean usePow4LengthNormalisation = false;
+    public int maxGenerationTries = 100;
+    
+    public int useSingleCrowdingDistance = 0;
+    public int useSimilarityPrioritySorter = 0;
     
     public String getCurrentResultName(){
     

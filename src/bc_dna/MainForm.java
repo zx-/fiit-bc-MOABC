@@ -23,6 +23,7 @@ public class MainForm extends javax.swing.JFrame {
     private int seqsLoaded = 0;
     BC_DNA main;
     private Boolean isWorking = false;
+    private DefaultCaret caret;
     
     /**
      * Creates new form MainForm
@@ -32,8 +33,9 @@ public class MainForm extends javax.swing.JFrame {
         initComponents();
         jTextAreaOutput.setEditable(false);
         main = new BC_DNA(this);
-        DefaultCaret caret = (DefaultCaret)jTextAreaOutput.getCaret();
+        caret = (DefaultCaret)jTextAreaOutput.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        this.setTitle("Hladanie motivov v DNA sekvenciach 2015 FIIT");
         
     }
 
@@ -172,6 +174,7 @@ public class MainForm extends javax.swing.JFrame {
         } else {
             jTextAreaOutput.append("Sequences: File access cancelled by user.\n");
         }
+        jTextAreaOutput.setCaretPosition(jTextAreaOutput.getDocument().getLength());
      
     }//GEN-LAST:event_OpenFileActionPerformed
 
@@ -205,6 +208,7 @@ public class MainForm extends javax.swing.JFrame {
         } else {
             jTextAreaOutput.append("Configs: File access cancelled by user.\n");
         }
+        jTextAreaOutput.setCaretPosition(jTextAreaOutput.getDocument().getLength());
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -233,6 +237,7 @@ public class MainForm extends javax.swing.JFrame {
             jTextAreaOutput.append("Files not loaded\n");
         
         }
+        jTextAreaOutput.setCaretPosition(jTextAreaOutput.getDocument().getLength());
         
     }//GEN-LAST:event_jButtonStartActionPerformed
 
@@ -241,6 +246,7 @@ public class MainForm extends javax.swing.JFrame {
         jTextAreaOutput.append(        
                 String.format("Done %f%%\n", percentage)        
         );
+        jTextAreaOutput.setCaretPosition(jTextAreaOutput.getDocument().getLength());
     
     }
     
@@ -297,8 +303,8 @@ public class MainForm extends javax.swing.JFrame {
     void endSearch() {
    
         jTextAreaOutput.append("End\n");
-            isWorking = false;
-            jButtonStart.setEnabled(true);
-    
+        isWorking = false;
+        jButtonStart.setEnabled(true);
+        jTextAreaOutput.setCaretPosition(jTextAreaOutput.getDocument().getLength());
     }
 }

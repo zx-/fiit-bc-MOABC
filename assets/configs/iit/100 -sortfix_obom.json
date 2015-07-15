@@ -1,0 +1,28 @@
+{
+	"name" : "100 -sortfix_obom",
+	"currentTestName" : "",
+	"numberOfRepetitionsPerInput" : 3,
+	"motifMaxLength" : 64,
+	"motifMinLength" : 7,
+	"maxIterations" : 100,
+	"onlookersSize" : 100,
+	"workersSize" : 120,
+	"scoutsSize" : 50,
+	"supportTreshold" : 0.5,
+	"motifMinComplexity" : 0.5,
+	"numberOfSequentions" : 12,
+	"lengthOfSequence" : 200,
+	"logLevel" : {
+		"name" : "OFF",
+		"value" : 2147483647,
+		"resourceBundleName" : "sun.util.logging.resources.logging"
+	},
+	"OBLFepsilon" : 15,
+	"OBLFbeta" : 1.9,
+	"jumpRate" : 0.2,
+	"perturbationRate" : 0.1,
+	"stepC" : 1.5,
+	"OBLFstepMultiplier" : 10.0,
+	"useLevy" :1,
+	"useObom" : 1
+}

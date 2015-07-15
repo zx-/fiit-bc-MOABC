@@ -59,7 +59,11 @@ public class BasicMutator implements Mutator {
         int[] bPositions = b.getSequenceMotifPositions();
         int[] randomBeePositions = randomBee.getSequenceMotifPositions();
         
+        int genCount = 0;
         while(!isSolution){
+        
+            if( genCount++ > cfg.maxGenerationTries)
+                return b;
         
             step = r.nextDouble()*2 - 1;
             isSolution = true;
@@ -75,6 +79,8 @@ public class BasicMutator implements Mutator {
             }
             
             for( i = 0; i < newPositions.length; i++ ){
+                
+                step = r.nextDouble()*2 - 1;
             
                 newPositions[i] = (int) ( bPositions[i] 
                         + step*( bPositions[i] - randomBeePositions[i] ));
