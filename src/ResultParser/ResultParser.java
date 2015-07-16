@@ -38,7 +38,7 @@ public class ResultParser {
     private static ResultWriter resultWriter = new ResultWriter();
     
     private static SearchPhase beeSearchPhase = SearchPhase.WORKER_PHASE;
-    public static Boolean isDeepResultTest = true;
+    public static Boolean isDeepResultTest = false;
     public static Sorter beeSorter = null;
     
     public static void reset(){
@@ -139,7 +139,7 @@ public class ResultParser {
         if(!isDeepResultTest)
             return;
         
-        System.out.println("RP:  i: "+iteration);
+        //System.out.println("RP:  i: "+iteration);
         // Comparisons
         for(int i: comparisonCounts)
             comparisons.add(i);
@@ -262,7 +262,7 @@ public class ResultParser {
     public static void paretoFrontSize(int size) {
         
         currentParetoFrontSize = size;
-        System.out.println("Pareto size: "+size);
+        //System.out.println("Pareto size: "+size);
         
     }
         

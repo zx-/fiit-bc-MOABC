@@ -15,6 +15,7 @@ import artificial_bee_colony.bee.randomSelector.RandomSelector;
 import artificial_bee_colony.bee.randomSelector.RandomValuedSelection;
 import artificial_bee_colony.bee.sorter.Sorter;
 import artificial_bee_colony.postprocessor.SimplePostprocessor;
+import artificial_bee_colony.postprocessor.StringMotifResult;
 import dna_sequence.DNASequence;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +47,9 @@ public class MotifFindingSolver {
     
     }
     
-    public void solve(DNASequence[] sequences){
+    public StringMotifResult[] solve(DNASequence[] sequences){
         
-        solve(sequences, cfg);
+        return solve(sequences, cfg);
     
     }
     
@@ -58,7 +59,7 @@ public class MotifFindingSolver {
      
     }
     
-    public void solve(DNASequence[] sequences, Configuration config){
+    public StringMotifResult[] solve(DNASequence[] sequences, Configuration config){
     
         int i;
         Bee[] colony = new Bee[0];
@@ -78,12 +79,13 @@ public class MotifFindingSolver {
         }
         
         
+        return proc.processColony(finalColony,sorter);
         
-        ResultParser.parseFinalResults(
-        
-                proc.processColony(finalColony,sorter)
-                
-        );
+//        ResultParser.parseFinalResults(
+//        
+//                proc.processColony(finalColony,sorter)
+//                
+//        );
 
         
     }
@@ -210,13 +212,13 @@ public class MotifFindingSolver {
 //        ResultParser.parseFinalResults(colony);
         ResultParser.iterationSearchEnd();
         
-        for(i = 0 ; i < 10 ; i++){
-        
-            System.out.println(colony[i].toString());
-            System.out.println(Motif.createMotifFromPFM(colony[i].getPFM()).toString());
-        
-        }
-        
+//        for(i = 0 ; i < 10 ; i++){
+//        
+//            System.out.println(colony[i].toString());
+//            System.out.println(Motif.createMotifFromPFM(colony[i].getPFM()).toString());
+//        
+//        }
+//        
         
     }
     

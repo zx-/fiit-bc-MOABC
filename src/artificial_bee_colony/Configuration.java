@@ -73,8 +73,8 @@ public class Configuration {
     public boolean usePow4LengthNormalisation = false;
     public int maxGenerationTries = 100;
     
-    public int useSingleCrowdingDistance = 0;
-    public int useSimilarityPrioritySorter = 0;
+    public int useSingleCrowdingDistance = 1;
+    public int useSimilarityPrioritySorter = 1;
     
     public String getCurrentResultName(){
     

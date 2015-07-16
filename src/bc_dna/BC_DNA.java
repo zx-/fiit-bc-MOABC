@@ -25,6 +25,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -32,6 +35,7 @@ import motif.Motif;
 import motif.PFMLoader;
 import motif.PFMNotLoadedException;
 import motif.PFMfromStringLoader;
+import tester.ParallelTester;
 import tester.Tester;
 
 /**
@@ -60,32 +64,40 @@ public class BC_DNA {
         
         }
         ResultParser.isDeepResultTest = deepResults;
-        double i = 1;
-        
-        for(DNASequence[] sequence: sequenceList){
-        
-            if(sequence.length > 1){
-            
-                Tester tester = new Tester
-                .TesterBuilder(sequence[0].getName())
-                    .evaluator(e)
-                    .sorter(s)
-                    .mutator(new BasicMutator(e))
-                    .dnaSequences(sequence)
-                    .configurations(configList.toArray(new Configuration[0]))
-                    .build();
-
-                tester.test();
-
-                ResultParser.printResults();   
-                
-            }         
-            
-            frame.printPercentage((i++/sequenceList.size()*100));
-            
+//        double i = 1;
+//        
+//        for(DNASequence[] sequence: sequenceList){
+//        
+//            if(sequence.length > 1){
+//            
+//                Tester tester = new Tester
+//                .TesterBuilder(sequence[0].getName())
+//                    .evaluator(e)
+//                    .sorter(s)
+//                    .mutator(new BasicMutator(e))
+//                    .dnaSequences(sequence)
+//                    .configurations(configList.toArray(new Configuration[0]))
+//                    .build();
+//
+//                tester.test();
+//
+//                ResultParser.printResults();   
+//                
+//            }         
+//            
+//            frame.printPercentage((i++/sequenceList.size()*100));
+//            
+//        }
+//    
+//        ResultParser.searchRunEnd();
+        try {
+            new ParallelTester().test(sequenceList, configList);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(BC_DNA.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(BC_DNA.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-        ResultParser.searchRunEnd();
+        
         frame.endSearch();
         
     }
