@@ -116,6 +116,14 @@ public class ResultSubmitterHTTP {
     
     } 
     
+    public ArrayList<HashMap<String, String>> getDocumentResults(String htmlResponse) {
+        
+        Document doc = Jsoup.parse(htmlResponse);
+        
+        return getDocumentResults(doc);
+    
+    }
+    
     public ArrayList<HashMap<String, String>> getDocumentResults(Document doc) {
         
         ArrayList<HashMap<String, String>> results = new ArrayList<>();
@@ -139,16 +147,19 @@ public class ResultSubmitterHTTP {
             
             data = tr.children();
         
-            rowDataMap = new HashMap<>();
-            
-            for(int i = 0; i < data.size(); i++){
-            
-                rowDataMap.put(stringHeaders.get(i), data.get(i).html().trim());
+            if(data.size() > 3){
+                rowDataMap = new HashMap<>();
+
+                for(int i = 0; i < data.size(); i++){
+
+                    rowDataMap.put(stringHeaders.get(i), data.get(i).html().trim());
+
+                }
+
+                rowDataMap.remove("");                
+                results.add(rowDataMap);
             
             }
-            
-            rowDataMap.remove("");
-            results.add(rowDataMap);
         
         }        
         

@@ -21,17 +21,20 @@ import java.util.HashSet;
 class ParallelTest {
     
     private final DNASequence[] sequences;
-    private final int runNumber;
+    private final int repetition;
     private final Configuration cfg;
-    private final MotifFindingSolver solver;
+    private MotifFindingSolver solver;
     private final HashSet<String> resultSet  = new HashSet<>();
+    private final int runId;
     
-    public ParallelTest(DNASequence[] sequences, int runNumber, Configuration cfg, MotifFindingSolver solver){
+    public ParallelTest(DNASequence[] sequences, int runNumber,
+            Configuration cfg, MotifFindingSolver solver, int runId){
     
         this.sequences = sequences;
-        this.runNumber = runNumber;
+        this.repetition = runNumber;
         this.cfg = cfg;
         this.solver = solver;
+        this.runId = runId;
     
     }
     
@@ -40,13 +43,14 @@ class ParallelTest {
         final Thread currentThread = Thread.currentThread();
         final String oldName = currentThread.getName();
         
-        currentThread.setName(oldName+": "+getCfgName()+" -> "+sequences[0].getName()+" run: "+getRunNumber());
+        currentThread.setName(oldName+": "+getCfgName()+" -> "+sequences[0].getName()+" run: "+getRunRepetition());
         
         System.out.println(currentThread.getName()+"\n"
         +"started search");
         
         
         StringMotifResult results[] = solver.solve(sequences);
+        solver = null;
         
         for(StringMotifResult r:results){
         
@@ -73,15 +77,15 @@ class ParallelTest {
     /**
      * @return the runNumber
      */
-    public int getRunNumber() {
-        return runNumber;
+    public int getRunRepetition() {
+        return repetition;
     }
 
     /**
      * @return the cfgName
      */
     public String getCfgName() {
-        return this.cfg.name;
+        return this.getCfg().name;
     }
 
     /**
@@ -89,6 +93,20 @@ class ParallelTest {
      */
     public HashSet<String> getResultSet() {
         return resultSet;
+    }
+
+    /**
+     * @return the cfg
+     */
+    public Configuration getCfg() {
+        return cfg;
+    }
+
+    /**
+     * @return the runId
+     */
+    public int getRunId() {
+        return runId;
     }
     
 }

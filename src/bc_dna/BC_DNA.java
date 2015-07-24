@@ -24,7 +24,9 @@ import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +39,7 @@ import motif.PFMNotLoadedException;
 import motif.PFMfromStringLoader;
 import tester.ParallelTester;
 import tester.Tester;
+import tester.db.PgDAO;
 
 /**
  *
@@ -45,115 +48,55 @@ import tester.Tester;
 public class BC_DNA {
 
     private ArrayList<DNASequence[]> sequenceList = new ArrayList<>();
-    private ArrayList<Configuration> configList = new ArrayList<>();
+    private List<Configuration> configList = new ArrayList<>();
     private final MainForm frame;
+    private PgDAO pgDao;
     
-    public BC_DNA(MainForm frame){
+    public BC_DNA(MainForm frame) throws IOException, FileNotFoundException, SQLException{
     
         this.frame = frame;
+        pgDao = new PgDAO();
     
     }
     
     public void run(Boolean deepResults, Boolean usePriority,Boolean useSingleCD){
     
-        Evaluator e = new GonzalezAlvarezEvaluator();
-        Sorter s = usePriority?new SimilarityPrioritySorter():new Sorter();
-        if(useSingleCD){
-        
+              Evaluator e = new GonzalezAlvarezEvaluator();
+        Sorter s = usePriority ? new SimilarityPrioritySorter() : new Sorter();
+        if (useSingleCD) {
+
             s.setCDSorter(new SingleCrowdingDistanceSorter());
-        
+
         }
         ResultParser.isDeepResultTest = deepResults;
-//        double i = 1;
-//        
-//        for(DNASequence[] sequence: sequenceList){
-//        
-//            if(sequence.length > 1){
-//            
-//                Tester tester = new Tester
-//                .TesterBuilder(sequence[0].getName())
-//                    .evaluator(e)
-//                    .sorter(s)
-//                    .mutator(new BasicMutator(e))
-//                    .dnaSequences(sequence)
-//                    .configurations(configList.toArray(new Configuration[0]))
-//                    .build();
-//
-//                tester.test();
-//
-//                ResultParser.printResults();   
-//                
-//            }         
-//            
-//            frame.printPercentage((i++/sequenceList.size()*100));
-//            
-//        }
-//    
-//        ResultParser.searchRunEnd();
-        try {
-            new ParallelTester().test(sequenceList, configList);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(BC_DNA.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ExecutionException ex) {
-            Logger.getLogger(BC_DNA.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
         
+        try {
+            
+            
+            ParallelTester p = new ParallelTester(getPgDao());
+
+            p.test(sequenceList, configList);
+
+        } catch ( InterruptedException 
+                | ExecutionException ex) {
+            
+            Logger.getLogger(BC_DNA.class.getName()).log(Level.SEVERE, null, ex);
+       
+        }
+
         frame.endSearch();
         
-    }
+    }     
     
-    /**
-     * @param args the command line arguments
-     * @throws motif.PFMNotLoadedException
-     */
-//    public static void main(String[] args) throws PFMNotLoadedException, FileNotFoundException, IOException {
-//        
-//        
-//        Configuration c = new Configuration();
-//        Configuration[] configs = new Configuration[3];
-//       // configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def.json"));
-//        configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def3.json"));
-//        configs[1] = Configuration.getFromJsonFile(new File("assets\\configs\\200b500it.json"));
-//        configs[2] = Configuration.getFromJsonFile(new File("assets\\configs\\200b1000it.json"));
-//        
-//        
-//        ArrayList<DNASequence[]> seqList = openSequences();
-//       // ArrayList<DNASequence[]> seqList =new ArrayList<>();
-//        
-//        DNASequence[] seq = DNASequenceLoader.loadFromFile("assets\\sequences\\real\\hm20r.fasta");
-//        //seqList.add(seq);
-//          
-////        for(int i= 0; i<size;i++)
-////            System.out.println(seq[i].toJSON());
-//        Evaluator e = new GonzalezAlvarezEvaluator(c);
-//        Sorter s = new Sorter();
-//        //Sorter s = new SimilarityPrioritySorter();
-//        
-//        for(DNASequence[] sequence: seqList){
-//        
-//            if(sequence.length > 1){
-//            
-//                Tester tester = new Tester
-//                .TesterBuilder(sequence[0].getName())
-//                    .evaluator(e)
-//                    .sorter(s)
-//                    .mutator(new BasicMutator(e))
-//                    .dnaSequences(sequence)
-//                    .configurations(configs)
-//                    .build();
-//
-//                tester.test();
-//
-//                ResultParser.printResults();   
-//                
-//            }
-//            
-//        }
-//        
-//        
-//        
-//    }
-//    
+    public int loadConfigurationsFromDB(){
+    
+        configList = getPgDao().getAllConfigurations();
+        
+        return configList.size();
+    
+    }
+
     public static ArrayList<DNASequence[]> openSequences(){
     
         File defDir = new File("assets\\sequences\\");
@@ -257,5 +200,89 @@ public class BC_DNA {
     
         return configList.size();
     }    
+
+    /**
+     * @return the pgDao
+     */
+    public PgDAO getPgDao() {
+        return pgDao;
+    }
     
 }
+    /**
+     * @param args the command line arguments
+     * @throws motif.PFMNotLoadedException
+     */
+//    public static void main(String[] args) throws PFMNotLoadedException, FileNotFoundException, IOException {
+//        
+//        
+//        Configuration c = new Configuration();
+//        Configuration[] configs = new Configuration[3];
+//       // configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def.json"));
+//        configs[0] = Configuration.getFromJsonFile(new File("assets\\configs\\def3.json"));
+//        configs[1] = Configuration.getFromJsonFile(new File("assets\\configs\\200b500it.json"));
+//        configs[2] = Configuration.getFromJsonFile(new File("assets\\configs\\200b1000it.json"));
+//        
+//        
+//        ArrayList<DNASequence[]> seqList = openSequences();
+//       // ArrayList<DNASequence[]> seqList =new ArrayList<>();
+//        
+//        DNASequence[] seq = DNASequenceLoader.loadFromFile("assets\\sequences\\real\\hm20r.fasta");
+//        //seqList.add(seq);
+//          
+////        for(int i= 0; i<size;i++)
+////            System.out.println(seq[i].toJSON());
+//        Evaluator e = new GonzalezAlvarezEvaluator(c);
+//        Sorter s = new Sorter();
+//        //Sorter s = new SimilarityPrioritySorter();
+//        
+//        for(DNASequence[] sequence: seqList){
+//        
+//            if(sequence.length > 1){
+//            
+//                Tester tester = new Tester
+//                .TesterBuilder(sequence[0].getName())
+//                    .evaluator(e)
+//                    .sorter(s)
+//                    .mutator(new BasicMutator(e))
+//                    .dnaSequences(sequence)
+//                    .configurations(configs)
+//                    .build();
+//
+//                tester.test();
+//
+//                ResultParser.printResults();   
+//                
+//            }
+//            
+//        }
+//        
+//        
+//        
+//    }
+//    //        double i = 1;
+//        
+//        for(DNASequence[] sequence: sequenceList){
+//        
+//            if(sequence.length > 1){
+//            
+//                Tester tester = new Tester
+//                .TesterBuilder(sequence[0].getName())
+//                    .evaluator(e)
+//                    .sorter(s)
+//                    .mutator(new BasicMutator(e))
+//                    .dnaSequences(sequence)
+//                    .configurations(configList.toArray(new Configuration[0]))
+//                    .build();
+//
+//                tester.test();
+//
+//                ResultParser.printResults();
+//
+//            }
+//            
+//            frame.printPercentage((i++/sequenceList.size()*100));
+//            
+//        }
+//    
+//        ResultParser.searchRunEnd();

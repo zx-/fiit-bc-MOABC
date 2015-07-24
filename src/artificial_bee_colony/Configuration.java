@@ -45,6 +45,7 @@ public class Configuration {
     public String name = "Default Config";
     public String currentTestName = "";
     public int numberOfRepetitionsPerInput = 1;
+    public int id = 0;
     
     public int motifMaxLength = 64; // 64
     public int motifMinLength = 7;
