@@ -13,12 +13,14 @@ public class Run {
     
     private int id;
     private int configuration;
+    private String configName;
 
     
-    public Run(int id,int cfgid){
+    public Run(int id,int cfgid, String name){
     
         this.id = id;
         this.configuration = cfgid;
+        this.configName = name;
     
     }
     /**
@@ -51,8 +53,22 @@ public class Run {
     
     public String toString(){
     
-        return "Run #"+id+" config #"+configuration;
+        return "Run #"+id+" config #"+configuration+" "+configName;
     
+    }
+
+    /**
+     * @return the configName
+     */
+    public String getConfigName() {
+        return configName;
+    }
+
+    /**
+     * @param configName the configName to set
+     */
+    public void setConfigName(String configName) {
+        this.configName = configName;
     }
     
 }

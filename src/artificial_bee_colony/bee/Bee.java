@@ -11,8 +11,9 @@ import dna_sequence.DNASequence;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import motif.Nucleotide;
-import org.w3c.dom.ranges.RangeException;
 
 /**
  *
@@ -206,6 +207,12 @@ public class Bee {
     
     }
     
+    public double getObjectiveEntropy(boolean normalise) {
+    
+        return getObjective(3, normalise);
+        
+    }
+    
     public double getObjective(int objNumber, boolean normalise){
     
         double norm = 1;
@@ -232,6 +239,15 @@ public class Bee {
             norm = this.objectives.get(objNumber)/norm;
             norm = Math.pow(norm, 0.25);
             return norm;
+        
+        }
+        
+        if( this.objectives.get(objNumber) == null ){
+        
+            Logger.getLogger(Bee.class.getName()).log(
+                    Level.SEVERE, 
+                    "Unknown objective accessed in bee"
+                    +"\n obj number: "+objNumber);
         
         }
     

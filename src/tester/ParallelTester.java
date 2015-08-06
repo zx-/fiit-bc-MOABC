@@ -45,7 +45,7 @@ import tester.httpResults.ResultSubmitterHTTP;
 public class ParallelTester {
     
     
-    public static final int REPETITIONS = 5;
+    public static int REPETITIONS = 30;
 
     private final PgDAO pgDAO; 
     private final ResultSubmitterHTTP submitter;
@@ -83,7 +83,7 @@ public class ParallelTester {
 
                     if (seqArray.length > 1) {
 
-                        Evaluator e = new GonzalezAlvarezEvaluator();
+                        Evaluator e = new GonzalezAlvarezEvaluator(c);
                         Sorter s = c.useSimilarityPrioritySorter == 1
                                 ? new SimilarityPrioritySorter() : new Sorter();
 

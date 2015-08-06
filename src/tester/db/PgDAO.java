@@ -126,6 +126,8 @@ public class PgDAO {
                 c.useSimilarityPrioritySorter 
                         = rs.getBoolean("useSimilarityPrioritySorter")?1:0;
                 
+                c.useEntropy = rs.getBoolean("useEntropy");
+                
                 configs.add(c);
             
             }
@@ -252,14 +254,16 @@ public class PgDAO {
             
             stmt = con.createStatement();
             
-            rs = stmt.executeQuery("select * from run");
+            rs = stmt.executeQuery(
+                    "select run.id, run.configuration, configuration.name from run join configuration on run.configuration=configuration.id");
             
             while(rs.next()){
                 
                 runs.add(
                         new Run(
                                 rs.getInt("id"),
-                                rs.getInt("configuration")
+                                rs.getInt("configuration"),
+                                rs.getString("name")
                         )                
                 );
             

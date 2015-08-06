@@ -5,12 +5,15 @@
  */
 package bc_dna;
 
+import artificial_bee_colony.Configuration;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -90,6 +93,12 @@ public class MainForm extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableResults = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jButtonRemoveConfig = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTableConfigs = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jFormattedTextFieldRepetitions = new javax.swing.JFormattedTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         OpenFile = new javax.swing.JMenuItem();
@@ -114,6 +123,11 @@ public class MainForm extends javax.swing.JFrame {
 
         jCheckBoxSingleDistance.setText("singe CD");
 
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
         jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTabbedPane1MouseClicked(evt);
@@ -240,6 +254,61 @@ public class MainForm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("results", jPanel1);
 
+        jButtonRemoveConfig.setText("remove");
+        jButtonRemoveConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveConfigActionPerformed(evt);
+            }
+        });
+
+        jTableConfigs.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTableConfigs);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButtonRemoveConfig)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1482, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonRemoveConfig)
+                .addGap(24, 24, 24))
+        );
+
+        jTabbedPane1.addTab("Loaded configs", jPanel3);
+
+        jLabel3.setText("Repetitions");
+
+        jFormattedTextFieldRepetitions.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        jFormattedTextFieldRepetitions.setText("30");
+        jFormattedTextFieldRepetitions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldRepetitionsActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("File");
 
         OpenFile.setText("Open sequences");
@@ -284,6 +353,10 @@ public class MainForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jFormattedTextFieldRepetitions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jCheckBoxSingleDistance)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxSimilaritySorter)
@@ -307,7 +380,9 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(jButtonStart)
                     .addComponent(jCheckBoxDeepAnalysis)
                     .addComponent(jCheckBoxSimilaritySorter)
-                    .addComponent(jCheckBoxSingleDistance))
+                    .addComponent(jCheckBoxSingleDistance)
+                    .addComponent(jLabel3)
+                    .addComponent(jFormattedTextFieldRepetitions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -332,9 +407,8 @@ public class MainForm extends javax.swing.JFrame {
             File files[] = fileChooser.getSelectedFiles();
               // What to do with the file, e.g. display it in a TextArea
              // textarea.read( new FileReader( file.getAbsolutePath() ), null );
-                seqsLoaded = main.loadSequencesFromFiles(files,true);
-                jTextAreaOutput.append(
-                        String.format("Loaded %d sequence files\n", seqsLoaded)
+                setSeqsLoaded(main.loadSequencesFromFiles(files,true));
+                jTextAreaOutput.append(String.format("Loaded %d sequence files\n", getSeqsLoaded())
                 );
       
         } else {
@@ -366,9 +440,8 @@ public class MainForm extends javax.swing.JFrame {
             File files[] = fileChooser.getSelectedFiles();
               // What to do with the file, e.g. display it in a TextArea
              // textarea.read( new FileReader( file.getAbsolutePath() ), null );
-            configsLoaded = main.loadConfigurationsFromFiles(files,true);
-            jTextAreaOutput.append(
-                    String.format("Loaded %d configurations\n", configsLoaded)
+            setConfigsLoaded(main.loadConfigurationsFromFiles(files,true));
+            jTextAreaOutput.append(String.format("Loaded %d configurations\n", getConfigsLoaded())
             );
       
         } else {
@@ -380,7 +453,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
         
-        if(configsLoaded!= 0 && seqsLoaded!= 0){
+        if(getConfigsLoaded()!= 0 && getSeqsLoaded()!= 0){
             
             isWorking = true;
             jTextAreaOutput.append("Start\n");
@@ -388,10 +461,10 @@ public class MainForm extends javax.swing.JFrame {
             
             Thread queryThread = new Thread() {
                 public void run() {
-                    main.run(
-                       jCheckBoxDeepAnalysis.isSelected(), 
+                    main.run(jCheckBoxDeepAnalysis.isSelected(), 
                        jCheckBoxSimilaritySorter.isSelected(),
-                       jCheckBoxSingleDistance.isSelected() 
+                       jCheckBoxSingleDistance.isSelected(),
+                       Integer.parseInt(jFormattedTextFieldRepetitions.getText())
                     );
                 }
             };
@@ -414,9 +487,8 @@ public class MainForm extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         
         
-        configsLoaded = main.loadConfigurationsFromDB();
-            jTextAreaOutput.append(
-                    String.format("Loaded %d configurations\n", configsLoaded)
+        setConfigsLoaded(main.loadConfigurationsFromDB());
+            jTextAreaOutput.append(String.format("Loaded %d configurations\n", getConfigsLoaded())
             );
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -530,8 +602,66 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        jButton1ActionPerformed(null);
+        
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        // TODO add your handling code here:
+        int tab = jTabbedPane1.getSelectedIndex() ;
+        if( tab == 1 ) {
+        
+            jButton1ActionPerformed(null);
+        
+        } 
+        
+        if ( tab == 2 ) {
+        
+            generateConfigTable();
+        
+        }
+        
+    }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void jButtonRemoveConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveConfigActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel m = (DefaultTableModel) jTableConfigs.getModel();
+        
+        List<Configuration> currentConfigs = main.getConfigList();
+        List<Configuration> newCfgList = new ArrayList<>();
+       
+        if(m.getRowCount() == 0)
+            return;
+
+        int[] rows = jTableConfigs.getSelectedRows();
+        
+        if(rows.length == 0)
+            return;
+        
+
+        int j = 0;
+        for (int i = 0; i < currentConfigs.size(); i++) {
+
+            if (j < rows.length && rows[j] == i) {
+
+                j++;
+
+            } else {
+
+                newCfgList.add(currentConfigs.get(i));
+
+            }
+
+        }
+        
+        main.setConfigList(newCfgList);
+
+        generateConfigTable();        
+        
+    }//GEN-LAST:event_jButtonRemoveConfigActionPerformed
+
+    private void jFormattedTextFieldRepetitionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldRepetitionsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextFieldRepetitionsActionPerformed
 
     public void printPercentage(double percentage){
     
@@ -583,13 +713,16 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonRemoveConfig;
     private javax.swing.JButton jButtonStart;
     private javax.swing.JCheckBox jCheckBoxDeepAnalysis;
     private javax.swing.JCheckBox jCheckBoxSimilaritySorter;
     private javax.swing.JCheckBox jCheckBoxSingleDistance;
     private javax.swing.JCheckBox jCheckBoxTotals;
+    private javax.swing.JFormattedTextField jFormattedTextFieldRepetitions;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelElapsed;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -597,11 +730,14 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel jStartedTime;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTableConfigs;
     private javax.swing.JTable jTableResults;
     private javax.swing.JTextArea jTextAreaOutput;
     private javax.swing.JComboBox runList;
@@ -621,5 +757,74 @@ public class MainForm extends javax.swing.JFrame {
         String time = String.format("%02d:%02d:%02d:%d", hour, minute, second, elapsed);
         jLabelElapsed.setText(time);
         jTextAreaOutput.setCaretPosition(jTextAreaOutput.getDocument().getLength());
+    }
+
+    private void generateConfigTable() {
+        
+        List<Configuration> configs = main.getConfigList();
+        DefaultTableModel m = (DefaultTableModel) jTableConfigs.getModel();
+        m.setColumnCount(0);
+        m.setRowCount(0);   
+        
+        Field[] fields = Configuration.class.getDeclaredFields();
+        
+        for( Field f:fields ) {
+        
+            m.addColumn(f.getName());
+        
+        }
+        
+        
+        
+        for(Configuration c:configs){
+        
+            Object[] row = new Object[fields.length];
+            int i = 0;
+            for(Field f:fields){
+            
+                try {
+                    row[i++] = f.get(c);
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+            }
+            
+            m.addRow(row);
+        
+        
+        }
+        
+        
+    }
+
+    /**
+     * @return the configsLoaded
+     */
+    public int getConfigsLoaded() {
+        return main.getConfigList().size();
+    }
+
+    /**
+     * @param configsLoaded the configsLoaded to set
+     */
+    public void setConfigsLoaded(int configsLoaded) {
+        this.configsLoaded = configsLoaded;
+    }
+
+    /**
+     * @return the seqsLoaded
+     */
+    public int getSeqsLoaded() {
+        return main.getSequenceList().size();
+    }
+
+    /**
+     * @param seqsLoaded the seqsLoaded to set
+     */
+    public void setSeqsLoaded(int seqsLoaded) {
+        this.seqsLoaded = seqsLoaded;
     }
 }

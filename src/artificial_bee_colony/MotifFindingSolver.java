@@ -62,7 +62,7 @@ public class MotifFindingSolver {
     public StringMotifResult[] solve(DNASequence[] sequences, Configuration config){
     
         int i;
-        Bee[] colony = new Bee[0];
+        Bee[] colony;
         ArrayList<Bee> finalColony = new ArrayList<>();
         SimplePostprocessor proc = new SimplePostprocessor();
         

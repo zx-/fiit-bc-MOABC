@@ -12,6 +12,8 @@ import dna_sequence.DNASequence;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -45,24 +47,37 @@ class ParallelTest {
         
         currentThread.setName(oldName+": "+getCfgName()+" -> "+sequences[0].getName()+" run: "+getRunRepetition());
         
-        System.out.println(currentThread.getName()+"\n"
-        +"started search");
+        try {
+            
+            System.out.println(currentThread.getName()+"\n"
+            +"started search");
+
+
+            StringMotifResult results[] = solver.solve(sequences);
+            solver = null;
+
+            for(StringMotifResult r:results){
+
+                getResultSet().add(r.toString());
+
+            }        
         
+            System.out.println(currentThread.getName()+"\n"
+            +"finished search");
         
-        StringMotifResult results[] = solver.solve(sequences);
-        solver = null;
+        } catch (Exception e) {
         
-        for(StringMotifResult r:results){
+            String msg = "Logged while solving in thread:"
+                    +"\n "+currentThread.getName();
+            
+            Logger.getLogger(ParallelTest.class.getName()).log(Level.SEVERE, msg, e);
         
-            getResultSet().add(r.toString());
+        } finally {        
+            
+            currentThread.setName(oldName);
         
         }
         
-        
-        System.out.println(currentThread.getName()+"\n"
-        +"finished search");
-        
-        currentThread.setName(oldName);
         
         return this;        
     

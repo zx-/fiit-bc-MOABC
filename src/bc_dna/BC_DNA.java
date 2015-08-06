@@ -59,9 +59,9 @@ public class BC_DNA {
     
     }
     
-    public void run(Boolean deepResults, Boolean usePriority,Boolean useSingleCD){
+    public void run(Boolean deepResults, Boolean usePriority,Boolean useSingleCD, int numberOfRepetitions){
     
-              Evaluator e = new GonzalezAlvarezEvaluator();
+        Evaluator e = new GonzalezAlvarezEvaluator();
         Sorter s = usePriority ? new SimilarityPrioritySorter() : new Sorter();
         if (useSingleCD) {
 
@@ -73,10 +73,10 @@ public class BC_DNA {
         
         try {
             
-            
-            ParallelTester p = new ParallelTester(getPgDao());
+            ParallelTester.REPETITIONS = numberOfRepetitions;
+            ParallelTester p = new ParallelTester(getPgDao());            
 
-            p.test(sequenceList, configList);
+            p.test(getSequenceList(), getConfigList());
 
         } catch ( InterruptedException 
                 | ExecutionException ex) {
@@ -91,9 +91,9 @@ public class BC_DNA {
     
     public int loadConfigurationsFromDB(){
     
-        configList = getPgDao().getAllConfigurations();
+        setConfigList(getPgDao().getAllConfigurations());
         
-        return configList.size();
+        return getConfigList().size();
     
     }
 
@@ -135,7 +135,7 @@ public class BC_DNA {
     public int loadSequencesFromFiles(File files[],boolean reset){
     
         FileFilter fastaFilter = new FileNameExtensionFilter("fasta","fasta");
-        if(reset) sequenceList.clear();
+        if(reset) getSequenceList().clear();
         
         for(File f:files){
         
@@ -150,7 +150,7 @@ public class BC_DNA {
                     try{
                         
                         DNASequence[] seq = DNASequenceLoader.loadFromFile(f);
-                        sequenceList.add(seq);
+                        getSequenceList().add(seq);
                     
                     } catch ( Exception e){
                     
@@ -163,14 +163,14 @@ public class BC_DNA {
             
         }
     
-        return sequenceList.size();
+        return getSequenceList().size();
         
     }
     
     public int loadConfigurationsFromFiles(File files[],boolean reset){
         
         FileFilter jsonFilter = new FileNameExtensionFilter("json","json");
-        if(reset) configList.clear();
+        if(reset) getConfigList().clear();
         
         for(File f:files){
         
@@ -185,7 +185,7 @@ public class BC_DNA {
                     try{
                         
                         Configuration c = Configuration.getFromJsonFile(f);
-                        configList.add(c);
+                        getConfigList().add(c);
                     
                     } catch ( Exception e){
                     
@@ -198,7 +198,7 @@ public class BC_DNA {
             
         }
     
-        return configList.size();
+        return getConfigList().size();
     }    
 
     /**
@@ -206,6 +206,27 @@ public class BC_DNA {
      */
     public PgDAO getPgDao() {
         return pgDao;
+    }
+
+    /**
+     * @return the configList
+     */
+    public List<Configuration> getConfigList() {
+        return configList;
+    }
+
+    /**
+     * @return the sequenceList
+     */
+    public ArrayList<DNASequence[]> getSequenceList() {
+        return sequenceList;
+    }
+
+    /**
+     * @param configList the configList to set
+     */
+    public void setConfigList(List<Configuration> configList) {
+        this.configList = configList;
     }
     
 }
