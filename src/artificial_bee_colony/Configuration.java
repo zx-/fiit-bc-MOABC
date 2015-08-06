@@ -77,6 +77,8 @@ public class Configuration {
     public int useSingleCrowdingDistance = 1;
     public int useSimilarityPrioritySorter = 1;
     
+    public boolean useEntropy = false;
+    
     public String getCurrentResultName(){
     
         return this.name+"-"+this.currentTestName;

@@ -57,6 +57,7 @@ public class GonzalezAlvarezEvaluator implements Evaluator{
         int support,motifLenght;
         double similarity;
         double complexity;
+        double entropy = 0;
         
         int treshold = (int) (config.supportTreshold * bee.getMotifLength());
         
@@ -82,16 +83,29 @@ public class GonzalezAlvarezEvaluator implements Evaluator{
             motifLenght = m.getLength();
             bee.setPFM(pfm);
             
+            if( config.useEntropy ) 
+                entropy = Entropy.compute(bee);
+            
         } else {
         
             similarity = 0;
             complexity = 0;
             support = 0;
             motifLenght = 0;        
+            entropy = 0;
         
         }      
         
-        bee.setMultipleObjectives(motifLenght,support,similarity);
+        if( config.useEntropy ) {
+        
+            bee.setMultipleObjectives(motifLenght,support,similarity,entropy);
+        
+        } else {
+        
+            bee.setMultipleObjectives(motifLenght,support,similarity);
+        
+        }
+        
         bee.setComplexity(complexity);
         
         if( motifLenght >= config.motifMinLength && motifLenght <= config.motifMaxLength 
